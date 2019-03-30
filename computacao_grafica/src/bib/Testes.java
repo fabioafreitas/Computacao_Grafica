@@ -1,9 +1,5 @@
 package bib;
 
-import java.sql.Blob;
-
-import bib.Biblioteca;
-
 public class Testes {
 	public static void printMatriz(double m[][]) {
 		for (int i = 0; i < m.length; i++) {
@@ -23,13 +19,25 @@ public class Testes {
 	}
 	
 	public static void a() {
+		double ma[][] = new double[2][2];
+		ma[0][0] = 1;
+		ma[0][1] = 2;
+		ma[1][0] = 3;
+		ma[1][1] = 4;
+		
+		double mb[][] = {{1,2},{3,4}};
+				
+		printMatriz(ma);
+		printMatriz(mb);
+		
+		
 		double m1[][] = {{1.5, 2.5, 3.5}, 
 						 {4.5, 5.5, 6.5}};
-		double m2[][] = {{7.5, 8.5},
-						 {9.5, 10.5},
-						 {11.5, 12.5}};
+		double m2[][] = {{7.5, 8.5},{9.5, 10.5},{11.5, 12.5}};
 		double m3[][] = Biblioteca.multiplicarMatriz(m1, m2);
-		printMatriz(m3);
+//		printMatriz(m1);
+//		printMatriz(m2);
+//		printMatriz(m3);
 	}
 
 	public static void b() {
@@ -87,5 +95,6 @@ public class Testes {
 	
 	public static void main(String[] args) {
 		// Adicionar a função para testar
+		a();
 	}
 }
