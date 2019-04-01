@@ -3,16 +3,18 @@ package negocio;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import beans.Forma;
 import beans.Ponto;
 import beans.Triangulo;
 
-
-public class Reader{
-	/*
+public class Drawner {
+	/**
 	 * Lê um arquivo .byu, separa seus vétices, triangulos e os coloca num objeto Forma
+	 * @param Nome do arquivo .byu presente no folder Formas/
+	 * @return Objeto Forma referente a este arquivo
 	 */
 	public static Forma lerArquivo(String fileName) throws IOException {
 		// Leitor do arquivo
@@ -44,5 +46,24 @@ public class Reader{
 		}
 		reader.close();
 		return new Forma(vertices, triangulos);
+	}
+	
+	/**
+	 * Desconsidera o eixo Z dos vértices de uma Forma
+	 * @param Instância de Forma
+	 * @return Projecao dos vértices desta Forma
+	 */
+	public Forma projecao(Forma forma) {
+		ArrayList<Ponto> projecao = new ArrayList<Ponto>();
+		ArrayList<Ponto> vertices = forma.getVertices();
+		for (int i = 0; i < vertices.size() ; i++) {
+			projecao.add(new Ponto(vertices.get(i).x, vertices.get(i).y));
+		}
+		return new Forma(projecao, forma.getTriangulos());
+	}
+	
+	public Forma normalizar() {
+		//TODO 
+		return null;
 	}
 }

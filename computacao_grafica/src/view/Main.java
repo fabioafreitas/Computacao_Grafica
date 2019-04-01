@@ -12,8 +12,11 @@ public class Main extends Application{
 		final int WIDTH = 1400, HEIGHT = 800;
 		
 		Sphere sphere = new Sphere(50);
-		sphere.setTranslateX(WIDTH/2);
-		sphere.setTranslateY(HEIGHT/2);
+		sphere.translateXProperty().set(WIDTH/2);
+		sphere.translateYProperty().set(HEIGHT/2);
+		
+//		sphere.setTranslateX(WIDTH/2);
+//		sphere.setTranslateY(HEIGHT/2);
 		
 		Group group = new Group();
 		group.getChildren().add(sphere);

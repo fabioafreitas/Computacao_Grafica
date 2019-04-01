@@ -1,22 +1,15 @@
 package view;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import beans.Forma;
 import beans.Matriz;
 import beans.Ponto;
 import beans.Triangulo;
 import beans.Vetor;
-import negocio.Reader;
 
 public class PrimeiraQuestao {
 	
 	public static void a() {
-		double m1[][] = {{1.5, 2.5, 3.5}, {4.5, 5.5, 6.5}};
-		double m2[][] = {{7.5, 8.5},{9.5, 10.5},{11.5, 12.5}};
-		Matriz matriz1 = new Matriz(m1);
-		Matriz matriz2 = new Matriz(m2);
+		Matriz matriz1 = new Matriz(new double[][] {{1.5, 2.5, 3.5}, {4.5, 5.5, 6.5}});
+		Matriz matriz2 = new Matriz(new double[][] {{7.5, 8.5},{9.5, 10.5},{11.5, 12.5}});
 		Matriz matriz3 = null;
 		try {
 			matriz3 = matriz1.multiplicar(matriz2);
@@ -97,6 +90,5 @@ public class PrimeiraQuestao {
 	
 	public static void main(String[] args) {
 		// Adicionar a função para testar
-		
 	}
 }

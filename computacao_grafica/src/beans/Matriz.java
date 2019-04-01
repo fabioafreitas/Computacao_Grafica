@@ -4,7 +4,7 @@ import negocio.exception.MultiplicacaoMatrizInvalidaException;
 import negocio.exception.NegocioException;
 
 public class Matriz {
-	public double[][] matriz;
+	private double[][] matriz;
 	
 	public Matriz(int linha, int coluna) {
 		this.matriz = new double[linha][coluna];
@@ -33,12 +33,12 @@ public class Matriz {
 		Matriz matriz3 = new Matriz(new double[linha1][coluna2]);
 		for (int i = 0; i < linha1; i++) {
 			for (int j = 0; j < coluna2; j++) {
-				matriz3.setEntrada(i, j, 0);
+				matriz3.matriz[i][j] = 0;
 				double somatorio = 0;
 				for (int k = 0; k < linha2; k++) { // Somatório de cada entrada da matriz
-					somatorio += matriz[i][k]*matriz2.getMatriz()[k][j];
+					somatorio += matriz[i][k]*matriz2.matriz[k][j];
 				}
-				matriz3.setEntrada(i, j, somatorio);
+				matriz3.matriz[i][j] = somatorio;
 			}
 		}
 		return matriz3;

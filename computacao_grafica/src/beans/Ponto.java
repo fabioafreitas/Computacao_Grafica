@@ -18,6 +18,7 @@ public class Ponto {
 	public Ponto(double x,double y) {
 		this.x = x;
 		this.y = y;
+		this.z = 0;
 	}
 	
 	/*
