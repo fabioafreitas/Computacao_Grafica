@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import beans.Forma;
 import beans.Ponto;
 import beans.Triangulo;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Drawner {
 	/**
@@ -53,7 +56,7 @@ public class Drawner {
 	 * @param Instância de Forma
 	 * @return Projecao dos vértices desta Forma
 	 */
-	public Forma projecao(Forma forma) {
+	public static Forma projecao(Forma forma) {
 		ArrayList<Ponto> projecao = new ArrayList<Ponto>();
 		ArrayList<Ponto> vertices = forma.getVertices();
 		for (int i = 0; i < vertices.size() ; i++) {
@@ -62,8 +65,57 @@ public class Drawner {
 		return new Forma(projecao, forma.getTriangulos());
 	}
 	
-	public Forma normalizar() {
-		//TODO 
-		return null;
+	/**
+	 * 
+	 * @param Forma projetada
+	 * @param Largura da tela
+	 * @param Altura da tela
+	 * @return Retorna uma forma dentro dos padrões dessa tela
+	 */
+	public static Forma normalizar(Forma projecao, int width, int height) {
+		ArrayList<Ponto> vertices = projecao.getVertices();
+		
+		//Busca mínimo e máximo para X e Y
+		double minX = vertices.get(0).x;
+		double maxX = vertices.get(0).x;
+		double minY = vertices.get(0).y;
+		double maxY = vertices.get(0).y;
+		for (int i = 1; i < vertices.size(); i++) {
+			double currentX = vertices.get(i).x;
+			double currentY = vertices.get(i).y;
+			if(currentX > maxX) 
+				maxX = currentX;
+			if(currentX < minX) 
+				minX = currentX;
+			if(currentY > maxY) 
+				maxY = currentY;
+			if(currentY < minY) 
+				minY = currentY;			
+		}
+		
+		//Observe que dará erro, caso o maxX igual a minX
+		for (int i = 0; i < vertices.size(); i++) {
+			vertices.get(i).x = ((vertices.get(i).x - minX)/(maxX - minX))*(width-1);
+			vertices.get(i).y = ((vertices.get(i).y - minY)/(maxY - minY))*(height-1);
+		}
+		
+		return new Forma(vertices, projecao.getTriangulos());
 	}
+	
+	//TODO ainda falta fazer isso funcionar
+	public static void desenhar(Canvas canvas, String fileName) throws IOException {
+		Forma form = normalizar( projecao(lerArquivo(fileName)) ,
+							   (int) canvas.getWidth(),
+							   (int) canvas.getHeight());
+		
+		GraphicsContext graphic = canvas.getGraphicsContext2D();
+		ArrayList<Ponto> pontos = form.getVertices();
+		for (int i = 0; i < pontos.size() ; i++) {
+			graphic.setFill(Color.WHITE);
+			graphic.fillRect(pontos.get(i).x - 1 ,
+							 pontos.get(i).y - 1 , 1, 1);
+		}
+		
+	}
+
 }
