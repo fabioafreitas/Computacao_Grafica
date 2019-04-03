@@ -90,5 +90,6 @@ public class PrimeiraQuestao {
 	
 	public static void main(String[] args) {
 		// Adicionar a função para testar
+		a();
 	}
 }

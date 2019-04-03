@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 
-public class Main extends Application{
+public class ExemploJavaFX extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		final int WIDTH = 1400, HEIGHT = 800;

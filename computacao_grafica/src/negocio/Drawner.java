@@ -3,7 +3,6 @@ package negocio;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import beans.Forma;
@@ -102,20 +101,27 @@ public class Drawner {
 		return new Forma(vertices, projecao.getTriangulos());
 	}
 	
-	//TODO ainda falta fazer isso funcionar
+	/**
+	 * 
+	 * @param objeto canvas que receberá a pintura
+	 * @param nome do arquivo a ser pintado no canvas
+	 * @throws IOException, caso o arquivo .byu não exista
+	 */
 	public static void desenhar(Canvas canvas, String fileName) throws IOException {
-		Forma form = normalizar( projecao(lerArquivo(fileName)) ,
-							   (int) canvas.getWidth(),
-							   (int) canvas.getHeight());
-		
+		Forma form = projecao(lerArquivo(fileName));
+		form = normalizar(form, (int) canvas.getWidth(), (int) canvas.getHeight());
 		GraphicsContext graphic = canvas.getGraphicsContext2D();
 		ArrayList<Ponto> pontos = form.getVertices();
+		
+		//Pintando todos os pixels do canvas de preto
+		graphic.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		
+		// Pintando a forma no canvas
 		for (int i = 0; i < pontos.size() ; i++) {
 			graphic.setFill(Color.WHITE);
 			graphic.fillRect(pontos.get(i).x - 1 ,
 							 pontos.get(i).y - 1 , 1, 1);
 		}
-		
 	}
 
 }
