@@ -4,7 +4,7 @@ import negocio.exception.NegocioException;
 import negocio.exception.PontosColinearesException;
 
 public class Triangulo {
-	public Ponto p1, p2, p3;
+	private Ponto p1, p2, p3;
 	
 	public Triangulo(Ponto p1, Ponto p2, Ponto p3) {
 		this.p1 = p1;
@@ -12,17 +12,23 @@ public class Triangulo {
 		this.p3 = p3;
 	}
 	
+	/**
+	 * Retorna a coordenada baricentrica referente a um ponto p 
+	 * @param p
+	 * @return
+	 * @throws NegocioException
+	 */
 	public Ponto coordenadaBaricentrica(Ponto p) throws NegocioException{
 		if(verificarColinearidade()) {
 			throw new PontosColinearesException("Sem coordenada baricentrica, pontos do triangulo sao colineares");
 		}
-		double a = p1.x - p3.x;
-		double b = p2.x - p3.x;
-		double c = p1.y - p3.y;
-		double d = p2.y - p3.y;
+		double a = p1.getX() - p3.getX();
+		double b = p2.getX() - p3.getX();
+		double c = p1.getY() - p3.getY();
+		double d = p2.getY() - p3.getY();
 		double det = 1/(a*d-b*c);
 		double m1[][] = {{det*d, det*(-b)},{det*(-c), det*a}};
-		double m2[][] = {{p.x-p3.x},{p.y-p3.y}};
+		double m2[][] = {{p.getX()-p3.getX()},{p.getY()-p3.getY()}};
 		Matriz matriz1 = new  Matriz(m1);
 		Matriz matriz2 = matriz1.multiplicar(new Matriz(m2));
 		return new Ponto(matriz2.getMatriz()[0][0],
@@ -30,20 +36,59 @@ public class Triangulo {
 						 1 - matriz2.getMatriz()[0][0] - matriz2.getMatriz()[1][0]);
 	}
 	
-	public Ponto pontoCoordenadaBaricentrica(Ponto coordBaricentrica) throws NegocioException{
+	/**
+	 * Retorna o ponto cartesiano referente a uma coordenada baricentrica
+	 * @param coordBaricentrica
+	 * @return
+	 * @throws NegocioException
+	 */
+	public Ponto pontoCartesianoBaricentrico(Ponto coordBaricentrica) throws NegocioException{
 		if(verificarColinearidade()) {
 			throw new PontosColinearesException("Sem coordenada baricentrica, pontos do triangulo sao colineares");
 		}
 		double a, b, c;
-		a = coordBaricentrica.x;
-		b = coordBaricentrica.y;
-		c = coordBaricentrica.z;
-		return new Ponto(a*p1.x+b*p2.x+c*p3.x, 
-						 a*p1.y+b*p2.y+c*p3.y);
+		a = coordBaricentrica.getX();
+		b = coordBaricentrica.getY();
+		c = coordBaricentrica.getZ();
+		return new Ponto(a*p1.getX()+b*p2.getX()+c*p3.getX(), 
+						 a*p1.getY()+b*p2.getY()+c*p3.getY(),
+						 0);
 	}
 	
 	private boolean verificarColinearidade() {
-		return 0 == ( p1.x*p2.y + p1.y*p3.x + p2.x*p3.y)
-					-(p3.x*p2.y + p3.y*p1.x + p2.x*p1.y);
+		return 0 == ( p1.getX()*p2.getY() + p1.getY()*p3.getX() + p2.getX()*p3.getY())
+					-(p3.getX()*p2.getY() + p3.getY()*p1.getX() + p2.getX()*p1.getY());
+	}
+	
+	public Ponto getP1() {
+		return p1;
+	}
+
+	public void setP1(Ponto p1) {
+		this.p1 = p1;
+	}
+
+	public Ponto getP2() {
+		return p2;
+	}
+
+	public void setP2(Ponto p2) {
+		this.p2 = p2;
+	}
+
+	public Ponto getP3() {
+		return p3;
+	}
+
+	public void setP3(Ponto p3) {
+		this.p3 = p3;
+	}
+	
+	public boolean equals(Triangulo t) {
+		if(t == null)
+			throw new RuntimeException("Triangulo nulo");
+		if(this.p1.equals(t.p1) && this.p2.equals(t.p2) && this.p3.equals(t.p3))
+			return true;
+		return false;
 	}
 }

@@ -1,23 +1,12 @@
 package beans;
 
 public class Vetor {
-	public double x,y,z;
+	private double x,y,z;
 	
-	/*
-	 * Construtor para Vetor 3D
-	 */
 	public Vetor(double x,double y,double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-	}
-	
-	/*
-	 * Construtor para Vetor 2D
-	 */
-	public Vetor(double x,double y) {
-		this.x = x;
-		this.y = y;
 	}
 	
 	/*
@@ -78,5 +67,37 @@ public class Vetor {
 	
 	public void print() {
 		System.out.print("["+x+"]["+y+"]["+z+"]");
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getZ() {
+		return z;
+	}
+
+	public void setZ(double z) {
+		this.z = z;
+	}
+	
+	public boolean equals(Vetor v) {
+		if(v == null) 
+			throw new RuntimeException("Ponto nulo");
+		if(this.x == v.x && this.y == v.y && this.z == v.z)
+			return true;
+		return false;
 	}
 }

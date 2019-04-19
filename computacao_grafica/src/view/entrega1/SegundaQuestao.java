@@ -1,4 +1,4 @@
-package view;
+package view.entrega1;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -11,6 +11,9 @@ import negocio.Drawner;
 public class SegundaQuestao extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		/**
+		 * INSITA O NOME DO ARQUIVO, SEM A EXTENÇÃO, NA STRING ABAIXO
+		 */
 		String fileName = "calice2"; 
 		
 		//Dimensões do canvas
@@ -26,7 +29,7 @@ public class SegundaQuestao extends Application{
 		canvas.setTranslateY(PLUS/2);
 		
 		//Desenhando a forma no canvas
-		Drawner.desenhar(canvas, fileName);
+		Drawner.desenharProjecaoOrtogonal(canvas, fileName);
 		
 		//Adicionando o canvas num grupo, e este na cena
 		Group group = new Group(canvas);

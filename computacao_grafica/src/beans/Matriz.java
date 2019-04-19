@@ -1,16 +1,21 @@
 package beans;
 
+import negocio.exception.MatrizInvalidaException;
 import negocio.exception.MultiplicacaoMatrizInvalidaException;
 import negocio.exception.NegocioException;
 
 public class Matriz {
 	private double[][] matriz;
 	
-	public Matriz(int linha, int coluna) {
+	public Matriz(int linha, int coluna) throws NegocioException{
+		if(linha <= 0 || coluna <= 00)
+			throw new MatrizInvalidaException("Entradas invalidas");
 		this.matriz = new double[linha][coluna];
 	}
 	
 	public Matriz(double matriz[][]) {
+		if(matriz == null)
+			throw new NullPointerException("Matriz nula");
 		this.matriz = matriz;
 	}
 	
@@ -82,6 +87,19 @@ public class Matriz {
 			}
 			System.out.println();
 		}
-		System.out.println();
+	}
+	
+	public boolean equals(Matriz m) {
+		if(m == null) 
+			throw new RuntimeException("Matriz invalida");
+		if( (m.getNumLinhas() != this.getNumLinhas()) || (m.getNumColunas() != this.getNumColunas()) )
+				return false;
+		for (int i = 0; i < m.getNumLinhas(); i++) {
+			for (int j = 0; j < m.getNumColunas(); j++) {
+				if(m.matriz[i][j] != this.matriz[i][j])
+					return false;
+			}
+		}
+		return true;
 	}
 }

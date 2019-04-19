@@ -1,4 +1,4 @@
-package view;
+package view.entrega1;
 
 import beans.Matriz;
 import beans.Ponto;
@@ -22,7 +22,7 @@ public class PrimeiraQuestao {
 	public static void b() {
 		Ponto p1 = new Ponto(3.5 ,1.5 ,2);
 		Ponto p2 = new Ponto(1 ,2 ,1.5);
-		Ponto p3 = p1.subtrair3D(p2);
+		Ponto p3 = p1.subtrair(p2);
 		p3.print();
 	}
 	
@@ -58,10 +58,10 @@ public class PrimeiraQuestao {
 	}
 	
 	public static void g() {
-		Ponto baricentrica = new Ponto(-0.25, 0.75);
-		Ponto a = new Ponto(-1,1);
-		Ponto b = new Ponto(0,-1);
-		Ponto c = new Ponto(1,1);
+		Ponto baricentrica = new Ponto(-0.25, 0.75, 0);
+		Ponto a = new Ponto(-1,1, 0);
+		Ponto b = new Ponto(0,-1, 0);
+		Ponto c = new Ponto(1,1, 0);
 		Triangulo triangulo = new Triangulo(a, b, c);
 		Ponto coordenada = null;
 		try {
@@ -74,13 +74,13 @@ public class PrimeiraQuestao {
 	
 	public static void h() {
 		Ponto coordenada = new Ponto(0.5, 0.25, 0.25);
-		Ponto a = new Ponto(-1,1);
-		Ponto b = new Ponto(0,-1);
-		Ponto c = new Ponto(1,1);
+		Ponto a = new Ponto(-1,1, 0);
+		Ponto b = new Ponto(0,-1, 0);
+		Ponto c = new Ponto(1,1, 0);
 		Triangulo triangulo = new Triangulo(a, b, c);
 		Ponto baricentrica = null;
 		try {
-			baricentrica = triangulo.pontoCoordenadaBaricentrica(coordenada);
+			baricentrica = triangulo.pontoCartesianoBaricentrico(coordenada);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,7 +89,20 @@ public class PrimeiraQuestao {
 	
 	
 	public static void main(String[] args) {
-		// Adicionar a função para testar
 		a();
+		System.out.println("\n");
+		b();
+		System.out.println("\n");
+		c();
+		System.out.println("\n");
+		d();
+		System.out.println("\n");
+		e();
+		System.out.println("\n");
+		f();
+		System.out.println("\n");
+		g();
+		System.out.println("\n");
+		h();
 	}
 }
