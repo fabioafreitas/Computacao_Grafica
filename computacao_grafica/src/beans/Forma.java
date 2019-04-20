@@ -16,6 +16,12 @@ public class Forma {
 			throw new RuntimeException("ArrayLists nulos");
 		if(!indiceTriangulos.isEmpty() && indiceTriangulos.get(0).length != 3)
 			throw new FormatoInvalidoException("ArrayList com indices de triangulos invalido");
+		for (int i = 0; i < indiceTriangulos.size(); i++) {
+			for (int j = 0; j < 3; j++) {
+				if(indiceTriangulos.get(i)[j] < 0 || indiceTriangulos.get(i)[j] >= vertices.size())
+					throw new EntradaInvalidaException("Indices de triangulos invalidos");
+			}
+		}
 		this.vertices = vertices;
 		this.indiceTriangulos = indiceTriangulos;
 	}
@@ -38,16 +44,16 @@ public class Forma {
 		vertices.set(indice, p);
 	}
 	
-	public void addIndiceTriangulo(int[] indices) throws NegocioException {
-		if(indices == null)
-			throw new RuntimeException("Objeto Array nulo");
-		if(indices.length != 3) 
-			throw new FormatoInvalidoException("Quantidade de indices diferente de 3");
-		if(indices[0] < 0 || indices[1] < 0 || indices[2] < 0)
-			throw new EntradaInvalidaException("Indice Negativo");
-		int size = vertices.size()-1;
-		if(indices[0] >= size || indices[1] >= size || indices[2] >= size)
-			throw new EntradaInvalidaException("Indice maior do que a quantidade de vertices");
-		indiceTriangulos.add(indices);
-	}
+//	public void addIndiceTriangulo(int[] indices) throws NegocioException {
+//		if(indices == null)
+//			throw new RuntimeException("Objeto Array nulo");
+//		if(indices.length != 3) 
+//			throw new FormatoInvalidoException("Quantidade de indices diferente de 3");
+//		if(indices[0] < 0 || indices[1] < 0 || indices[2] < 0)
+//			throw new EntradaInvalidaException("Indice Negativo");
+//		int size = vertices.size()-1;
+//		if(indices[0] >= size || indices[1] >= size || indices[2] >= size)
+//			throw new EntradaInvalidaException("Indice maior do que a quantidade de vertices");
+//		indiceTriangulos.add(indices);
+//	}
 }

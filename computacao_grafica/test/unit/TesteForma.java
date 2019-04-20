@@ -63,7 +63,7 @@ public class TesteForma {
 	 * indice represente um ponto do ArratList de vertices
 	 */
 	@Test(expected=FormatoInvalidoException.class)
-	public void testInstanciarFormaVetorIndicesInvalido() throws NegocioException {
+	public void testInstanciarFormaVetorIndicesDiferenteDeTres() throws NegocioException {
 		v = new ArrayList<Ponto>();
 		v.add(new Ponto(1, 1, 1));
 		v.add(new Ponto(2, 1, 2));
@@ -72,9 +72,29 @@ public class TesteForma {
 		i = new ArrayList<int[]>();
 		i.add(new int[] {0,1,2,3});
 		f = new Forma(v, i);
-		assertNotNull(f);
 	}
 
+	@Test(expected=EntradaInvalidaException.class)
+	public void testInstanciarFormaVetorIndicesNegativos() throws NegocioException {
+		v = new ArrayList<Ponto>();
+		v.add(new Ponto(1, 1, 1));
+		v.add(new Ponto(2, 1, 2));
+		v.add(new Ponto(2, 2, 3));
+		i = new ArrayList<int[]>();
+		i.add(new int[] {0,-1,-2});
+		f = new Forma(v, i);
+	}
+	
+	@Test(expected=EntradaInvalidaException.class)
+	public void testInstanciarFormaVetorIndicesAcimaDoLimite() throws NegocioException {
+		v = new ArrayList<Ponto>();
+		v.add(new Ponto(1, 1, 1));
+		v.add(new Ponto(2, 1, 2));
+		v.add(new Ponto(2, 2, 3));
+		i = new ArrayList<int[]>();
+		i.add(new int[] {0,1,30});
+		f = new Forma(v, i);
+	}
 	
 	@Test
 	public void testGetVertices() throws NegocioException {
@@ -153,66 +173,5 @@ public class TesteForma {
 		i.add(new int[] {0,1,2});
 		f = new Forma(v, i);
 		f.setVertices(0, null);
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloArrayNulo() throws NegocioException {
-		v = new ArrayList<Ponto>();
-		v.add(new Ponto(1, 1, 1));
-		v.add(new Ponto(2, 1, 2));
-		v.add(new Ponto(2, 2, 3));
-		i = new ArrayList<int[]>();
-		i.add(new int[] {0,1,2});
-		f = new Forma(v, i);
-		f.addIndiceTriangulo(new int[] {0, 1, 2});
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloLenghtNaoTres() throws NegocioException {
-		
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloIndiceNegativo1() throws NegocioException {
-		
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloIndiceNegativo2() throws NegocioException {
-		
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloIndiceNegativo3() throws NegocioException {
-		
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloIndiceAcimaDoLimite1() throws NegocioException {
-		
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloIndiceAcimaDoLimite2() throws NegocioException {
-		
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloIndiceAcimaDoLimite3() throws NegocioException {
-		
-	}
-	
-	@Ignore
-	@Test
-	public void testAddIndiceTrianguloValido() throws NegocioException {
-		
 	}
 }
