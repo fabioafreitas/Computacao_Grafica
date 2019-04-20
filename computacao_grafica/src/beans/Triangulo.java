@@ -6,7 +6,11 @@ import negocio.exception.PontosColinearesException;
 public class Triangulo {
 	private Ponto p1, p2, p3;
 	
-	public Triangulo(Ponto p1, Ponto p2, Ponto p3) {
+	public Triangulo(Ponto p1, Ponto p2, Ponto p3) throws NegocioException {
+		if(p1 == null || p2 == null || p3 == null)
+			throw new RuntimeException("Ponto Nulo");
+		if(verificarColinearidade(p1, p2, p3))
+			throw new PontosColinearesException("Triangulo invalido, pontos colineares");
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
@@ -19,9 +23,8 @@ public class Triangulo {
 	 * @throws NegocioException
 	 */
 	public Ponto coordenadaBaricentrica(Ponto p) throws NegocioException{
-		if(verificarColinearidade()) {
-			throw new PontosColinearesException("Sem coordenada baricentrica, pontos do triangulo sao colineares");
-		}
+		if(p == null)
+			throw new RuntimeException("Ponto nulo");
 		double a = p1.getX() - p3.getX();
 		double b = p2.getX() - p3.getX();
 		double c = p1.getY() - p3.getY();
@@ -43,9 +46,8 @@ public class Triangulo {
 	 * @throws NegocioException
 	 */
 	public Ponto pontoCartesianoBaricentrico(Ponto coordBaricentrica) throws NegocioException{
-		if(verificarColinearidade()) {
-			throw new PontosColinearesException("Sem coordenada baricentrica, pontos do triangulo sao colineares");
-		}
+		if(coordBaricentrica == null)
+			throw new RuntimeException("Ponto nulo");
 		double a, b, c;
 		a = coordBaricentrica.getX();
 		b = coordBaricentrica.getY();
@@ -55,32 +57,39 @@ public class Triangulo {
 						 0);
 	}
 	
-	private boolean verificarColinearidade() {
-		return 0 == ( p1.getX()*p2.getY() + p1.getY()*p3.getX() + p2.getX()*p3.getY())
-					-(p3.getX()*p2.getY() + p3.getY()*p1.getX() + p2.getX()*p1.getY());
-	}
-	
 	public Ponto getP1() {
 		return p1;
-	}
-
-	public void setP1(Ponto p1) {
-		this.p1 = p1;
 	}
 
 	public Ponto getP2() {
 		return p2;
 	}
-
-	public void setP2(Ponto p2) {
-		this.p2 = p2;
-	}
-
+	
 	public Ponto getP3() {
 		return p3;
 	}
-
-	public void setP3(Ponto p3) {
+	
+	public void setP1(Ponto p1) throws PontosColinearesException {
+		if(p1 == null)
+			throw new RuntimeException("Ponto Nulo");
+		if(verificarColinearidade(p1, this.p2, this.p3))
+			throw new PontosColinearesException("Set Ponto 1 colinear");
+		this.p1 = p1;
+	}
+	
+	public void setP2(Ponto p2) throws PontosColinearesException {
+		if(p2 == null)
+			throw new RuntimeException("Ponto Nulo");
+		if(verificarColinearidade(this.p1, p2, this.p3))
+			throw new PontosColinearesException("Set Ponto 2 colinear");
+		this.p2 = p2;
+	}
+	
+	public void setP3(Ponto p3) throws PontosColinearesException {
+		if(p3 == null)
+			throw new RuntimeException("Ponto Nulo");
+		if(verificarColinearidade(this.p1, this.p2, p3))
+			throw new PontosColinearesException("Set Ponto 3 colinear");
 		this.p3 = p3;
 	}
 	
@@ -90,5 +99,10 @@ public class Triangulo {
 		if(this.p1.equals(t.p1) && this.p2.equals(t.p2) && this.p3.equals(t.p3))
 			return true;
 		return false;
+	}
+	
+	private boolean verificarColinearidade(Ponto p1, Ponto p2, Ponto p3) {
+		return 0 == ( p1.getX()*p2.getY() + p1.getY()*p3.getX() + p2.getX()*p3.getY())
+					-(p3.getX()*p2.getY() + p3.getY()*p1.getX() + p2.getX()*p1.getY());
 	}
 }

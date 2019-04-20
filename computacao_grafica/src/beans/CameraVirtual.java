@@ -1,5 +1,7 @@
 package beans;
 
+
+//TODO implementar as funções da camera virtual e a projeção em perspectiva
 public class CameraVirtual {
 	private Ponto pontoC;
 	private Vetor vetorN, vetorV;

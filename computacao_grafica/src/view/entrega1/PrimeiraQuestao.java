@@ -62,9 +62,10 @@ public class PrimeiraQuestao {
 		Ponto a = new Ponto(-1,1, 0);
 		Ponto b = new Ponto(0,-1, 0);
 		Ponto c = new Ponto(1,1, 0);
-		Triangulo triangulo = new Triangulo(a, b, c);
+		Triangulo triangulo = null;
 		Ponto coordenada = null;
 		try {
+			triangulo = new Triangulo(a, b, c);
 			coordenada = triangulo.coordenadaBaricentrica(baricentrica);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,9 +78,10 @@ public class PrimeiraQuestao {
 		Ponto a = new Ponto(-1,1, 0);
 		Ponto b = new Ponto(0,-1, 0);
 		Ponto c = new Ponto(1,1, 0);
-		Triangulo triangulo = new Triangulo(a, b, c);
+		Triangulo triangulo = null;
 		Ponto baricentrica = null;
 		try {
+			triangulo = new Triangulo(a, b, c);
 			baricentrica = triangulo.pontoCartesianoBaricentrico(coordenada);
 		} catch (Exception e) {
 			e.printStackTrace();

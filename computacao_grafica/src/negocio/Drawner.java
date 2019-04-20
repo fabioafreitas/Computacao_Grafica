@@ -13,14 +13,19 @@ import beans.Vetor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import negocio.exception.NegocioException;
 
+//TODO corridir a classe drawner, devido a modificação da classe Forma
 public class Drawner {
 	/**
 	 * Lê um arquivo .byu, separa seus vétices, triangulos e os coloca num objeto Forma
 	 * @param Nome do arquivo .byu presente no folder Formas/
 	 * @return Objeto Forma referente a este arquivo
+	 * @throws NegocioException 
+	 * @throws NumberFormatException 
 	 */
-	public static Forma lerArquivoByu(String fileName) throws IOException {
+	public static Forma lerArquivoByu(String fileName) 
+			throws IOException, NumberFormatException, NegocioException {
 		// Leitor do arquivo
 		String separator = System.getProperty("file.separator");
 		String path = "Formas"+separator+fileName+".byu";
@@ -144,8 +149,11 @@ public class Drawner {
 	 * @param objeto canvas que receberá a pintura
 	 * @param nome do arquivo a ser pintado no canvas
 	 * @throws IOException, caso o arquivo .byu não exista
+	 * @throws NegocioException 
+	 * @throws NumberFormatException 
 	 */
-	public static void desenharProjecaoOrtogonal(Canvas canvas, String fileName) throws IOException {
+	public static void desenharProjecaoOrtogonal(Canvas canvas, String fileName) 
+			throws IOException, NumberFormatException, NegocioException {
 		Forma form = projecao(lerArquivoByu(fileName));
 		form = normalizar(form, (int) canvas.getWidth(), (int) canvas.getHeight());
 		GraphicsContext graphic = canvas.getGraphicsContext2D();
