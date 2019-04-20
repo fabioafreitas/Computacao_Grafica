@@ -14,7 +14,7 @@ public class Vetor {
 	 */
 	public double produtoEscalar3D(Vetor vetor2) {
 		if(vetor2 == null) 
-			throw new RuntimeException("vetor2 é nulo");
+			throw new RuntimeException("vetor é nulo");
 		return this.x*vetor2.x + this.y*vetor2.y + this.z*vetor2.z;
 	}
 	
@@ -23,7 +23,7 @@ public class Vetor {
 	 */
 	public double produtoEscalar2D(Vetor vetor2) {
 		if(vetor2 == null) 
-			throw new RuntimeException("vetor2 é nulo");
+			throw new RuntimeException("vetor é nulo");
 		return this.x*vetor2.x + this.y*vetor2.y;
 	}
 	
@@ -31,9 +31,9 @@ public class Vetor {
 	/*
 	 * Retorna o produto vetorial entre this.vetor e vetor2
 	 */
-	public Vetor produtoVetorial3D(Vetor v2) {
+	public Vetor produtoVetorial(Vetor v2) {
 		if(v2 == null) 
-			throw new RuntimeException("vetor2 é nulo");
+			throw new RuntimeException("vetor é nulo");
 		double a,b,c,d,e,f;
 		a = this.x;
 		b = this.y;
@@ -65,10 +65,6 @@ public class Vetor {
 						 this.z/norma);
 	}
 	
-	public void print() {
-		System.out.print("["+x+"]["+y+"]["+z+"]");
-	}
-
 	public double getX() {
 		return x;
 	}
@@ -99,5 +95,10 @@ public class Vetor {
 		if(this.x == v.x && this.y == v.y && this.z == v.z)
 			return true;
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "["+x+"]["+y+"]["+z+"]";
 	}
 }

@@ -16,14 +16,14 @@ public class PrimeiraQuestao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		matriz3.print();
+		System.out.println(matriz3);
 	}
 
 	public static void b() {
 		Ponto p1 = new Ponto(3.5 ,1.5 ,2);
 		Ponto p2 = new Ponto(1 ,2 ,1.5);
-		Ponto p3 = p1.subtrair(p2);
-		p3.print();
+		Vetor v = p1.subtrair(p2);
+		System.out.println(v);
 	}
 	
 	public static void c() {
@@ -38,11 +38,11 @@ public class PrimeiraQuestao {
 		Vetor v2 = new Vetor(1 ,2 ,1.5);
 		Vetor v3 = null;
 		try {
-			v3 = v1.produtoVetorial3D(v2);
+			v3 = v1.produtoVetorial(v2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		v3.print();
+		System.out.println(v3);
 	}
 	
 	public static void e() {
@@ -54,7 +54,7 @@ public class PrimeiraQuestao {
 	public static void f() {
 		Vetor v1 = new Vetor(3.5 ,1.5 ,2);
 		Vetor normalizado = v1.normalizar();
-		normalizado.print();
+		System.out.println(normalizado);
 	}
 	
 	public static void g() {
@@ -69,7 +69,7 @@ public class PrimeiraQuestao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		coordenada.print();
+		System.out.println(coordenada);
 	}
 	
 	public static void h() {
@@ -84,7 +84,7 @@ public class PrimeiraQuestao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		baricentrica.print();
+		System.out.println(baricentrica);
 	}
 	
 	

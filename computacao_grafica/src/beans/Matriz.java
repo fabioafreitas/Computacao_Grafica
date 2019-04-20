@@ -1,6 +1,6 @@
 package beans;
 
-import negocio.exception.MatrizInvalidaException;
+import negocio.exception.EntradaInvalidaException;
 import negocio.exception.MultiplicacaoMatrizInvalidaException;
 import negocio.exception.NegocioException;
 
@@ -9,13 +9,13 @@ public class Matriz {
 	
 	public Matriz(int linha, int coluna) throws NegocioException{
 		if(linha <= 0 || coluna <= 00)
-			throw new MatrizInvalidaException("Entradas invalidas");
+			throw new EntradaInvalidaException("Entradas invalidas");
 		this.matriz = new double[linha][coluna];
 	}
 	
 	public Matriz(double matriz[][]) {
 		if(matriz == null)
-			throw new NullPointerException("Matriz nula");
+			throw new RuntimeException("Matriz nula");
 		this.matriz = matriz;
 	}
 	
@@ -25,9 +25,8 @@ public class Matriz {
 	 * Se a matriz de entrada for nula ou não puder ser multiplicada, o método leventa uma exception
 	 */
 	public Matriz multiplicar(Matriz matriz2) throws NegocioException{
-		if(matriz2 == null) {
+		if(matriz2 == null)
 			throw new RuntimeException("Matriz2 é nula");
-		}
 		int linha1 = this.matriz.length;
 		int coluna1 = this.matriz[0].length;
 		int linha2 = matriz2.getMatriz().length; 
@@ -73,20 +72,24 @@ public class Matriz {
 	/*
 	 * Altera uma estrada específica da this.matriz
 	 */
-	public void setEntrada(int linha, int coluna, double valor) {
+	public void setEntrada(int linha, int coluna, double valor) throws EntradaInvalidaException {
+		if(linha < 0 || coluna < 0)
+			throw new EntradaInvalidaException("Entrada Invalida");
 		this.matriz[linha][coluna] = valor;
 	}
 	
 	/*
 	 * Imprime no console a this.matriz
 	 */
-	public void print() {
+	public String toString() {
+		String s = "";
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
-				System.out.print("["+matriz[i][j]+"]");
+				s += "["+matriz[i][j]+"]";
 			}
-			System.out.println();
+			s+="\n";
 		}
+		return s;
 	}
 	
 	public boolean equals(Matriz m) {

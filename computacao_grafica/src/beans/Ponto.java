@@ -9,21 +9,17 @@ public class Ponto {
 		this.z = z;
 	}
 	
-	/*
-	 * Subtrai o this.ponto de um ponto de entrada
+	/**
+	 * Ponto menos Ponto dá Vetor
+	 * @param ponto
+	 * @return
 	 */
-	public Ponto subtrair(Ponto ponto2) {
-		if(ponto2 == null)
-			throw new RuntimeException("ponto2 é nulo");
-		Ponto ponto3 = new Ponto(0,0,0);
-		ponto3.x = this.x - ponto2.x;
-		ponto3.y = this.y - ponto2.y;
-		ponto3.z = this.z - ponto2.z;
-		return ponto3;
-	}
-	
-	public void print() {
-		System.out.print("["+x+"]["+y+"]["+z+"]");
+	public Vetor subtrair(Ponto ponto) {
+		if(ponto == null)
+			throw new RuntimeException("ponto é nulo");
+		return new Vetor(this.x - ponto.x,
+						 this.y - ponto.y,
+						 this.z - ponto.z);
 	}
 
 	public double getX() {
@@ -56,6 +52,11 @@ public class Ponto {
 		if(this.x == p.x && this.y == p.y && this.z == p.z)
 			return true;
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "["+x+"]["+y+"]["+z+"]";
 	}
 	
 }
