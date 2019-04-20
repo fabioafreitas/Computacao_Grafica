@@ -1,5 +1,10 @@
 package unit;
 
+/**
+ * Testando 100% de comandos e de decisão
+ * @author fabio
+ *
+ */
 import static org.junit.Assert.*;
 
 import org.junit.Test;
