@@ -17,7 +17,7 @@ import negocio.exception.NegocioException;
 
 //TODO corridir a classe drawner, devido a modificação da classe Forma
 public class Drawner {
-	/**
+	/** 
 	 * Lê um arquivo .byu, separa seus vétices, triangulos e os coloca num objeto Forma
 	 * @param Nome do arquivo .byu presente no folder Formas/
 	 * @return Objeto Forma referente a este arquivo
@@ -35,7 +35,7 @@ public class Drawner {
 		String line = reader.readLine();
 		String split[] = line.split(" ");
 		ArrayList<Ponto> vertices = new ArrayList<>();
-		ArrayList<Triangulo> triangulos = new ArrayList<>();
+		ArrayList<int[]> indicesTriangulos = new ArrayList<>();
 		int numeroVertices = Integer.parseInt(split[0]);
 		int numeroTriangulos = Integer.parseInt(split[1]);
 		
@@ -50,12 +50,12 @@ public class Drawner {
 		for (int i = 0; i < numeroTriangulos; i++) {
 			line = reader.readLine();
 			split = line.split(" ");
-			triangulos.add(new Triangulo(vertices.get(Integer.parseInt(split[0]) - 1),
-										 vertices.get(Integer.parseInt(split[1]) - 1), 
-										 vertices.get(Integer.parseInt(split[2]) - 1)));
+			indicesTriangulos.add(new int[] {Integer.parseInt(split[0]) - 1,
+											 Integer.parseInt(split[1]) - 1,
+											 Integer.parseInt(split[2]) - 1});
 		}
 		reader.close();
-		return new Forma(vertices, triangulos);
+		return new Forma(vertices, indicesTriangulos);
 	}
 	
 	
@@ -95,14 +95,15 @@ public class Drawner {
 	 * Desconsidera o eixo Z dos vértices de uma Forma
 	 * @param Instância de Forma
 	 * @return Projecao dos vértices desta Forma
+	 * @throws NegocioException 
 	 */
-	public static Forma projecao(Forma forma) {
+	public static Forma projecaoOrtogonal(Forma forma) throws NegocioException {
 		ArrayList<Ponto> projecao = new ArrayList<Ponto>();
 		ArrayList<Ponto> vertices = forma.getVertices();
 		for (int i = 0; i < vertices.size() ; i++) {
 			projecao.add(new Ponto(vertices.get(i).getX(), vertices.get(i).getY(), 0));
 		}
-		return new Forma(projecao, forma.getTriangulos());
+		return new Forma(projecao, forma.getIndiceTriangulos());
 	}
 	
 	
@@ -113,8 +114,9 @@ public class Drawner {
 	 * @param Largura da tela
 	 * @param Altura da tela
 	 * @return Retorna uma forma dentro dos padrões dessa tela
+	 * @throws NegocioException 
 	 */
-	public static Forma normalizar(Forma projecao, int width, int height) {
+	public static Forma normalizar(Forma projecao, int width, int height) throws NegocioException {
 		ArrayList<Ponto> vertices = projecao.getVertices();
 		
 		//Busca mínimo e máximo para X e Y
@@ -141,7 +143,7 @@ public class Drawner {
 			vertices.get(i).setY(((vertices.get(i).getY() - minY)/(maxY - minY))*(height-1));
 		}
 		
-		return new Forma(vertices, projecao.getTriangulos());
+		return new Forma(vertices, projecao.getIndiceTriangulos());
 	}
 	
 	/**
@@ -154,7 +156,7 @@ public class Drawner {
 	 */
 	public static void desenharProjecaoOrtogonal(Canvas canvas, String fileName) 
 			throws IOException, NumberFormatException, NegocioException {
-		Forma form = projecao(lerArquivoByu(fileName));
+		Forma form = projecaoOrtogonal(lerArquivoByu(fileName));
 		form = normalizar(form, (int) canvas.getWidth(), (int) canvas.getHeight());
 		GraphicsContext graphic = canvas.getGraphicsContext2D();
 		ArrayList<Ponto> pontos = form.getVertices();
