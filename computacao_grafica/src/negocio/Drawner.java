@@ -8,12 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import negocio.beans.CameraVirtual;
 import negocio.beans.Forma;
 import negocio.beans.Ponto;
 import negocio.exception.NegocioException;
 
 //TODO corridir a classe drawner, devido a modificação da classe Forma
 public class Drawner { 
+	private static GraphicsContext graphic;
 	
 	/**
 	 * Método da questão dois da primeira entrega
@@ -35,7 +37,7 @@ public class Drawner {
 		canvas.setTranslateX(margin/2);
 		canvas.setTranslateY(margin/2);
 		
-		GraphicsContext graphic = canvas.getGraphicsContext2D();
+		graphic = canvas.getGraphicsContext2D();
 		ArrayList<Ponto> pontos = form.getVertices();
 		
 		//Pintando todo o CANVAS de preto (Cor default do GraphicsContext é Preto)
@@ -52,4 +54,27 @@ public class Drawner {
 		return new Scene(group, width+margin, height+margin);
 	}
 
+	/**
+	 * Metodo da segunda entrega
+	 * TODO Rasterização
+	 * @param canvas
+	 * @param camera
+	 * @param objeto
+	 * @throws NegocioException 
+	 */
+	public static void projecaoPerspectiva(Canvas canvas, CameraVirtual camera, Forma objeto) throws NegocioException {
+		graphic = canvas.getGraphicsContext2D();
+		Ponto pontoAux;
+		int width  = (int) canvas.getWidth(); 
+		int height = (int) canvas.getHeight();
+		
+		graphic.setFill(Color.WHITE);
+		for (Ponto ponto : objeto.getVertices()) {
+			ponto = Algebra.baseMundialParaVista(ponto, camera);
+			ponto = Algebra.converterPontoPerspectivaNormalizado(ponto, camera);
+			ponto = Algebra.coverterPontoCoordenadaTela(ponto, width, height);
+			
+			graphic.fillRect(ponto.getX(), ponto.getY(), 1, 1);
+		}
+	}
 }
