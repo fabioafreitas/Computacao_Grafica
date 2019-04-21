@@ -12,8 +12,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import beans.Ponto;
-import beans.Vetor;
+import negocio.beans.Ponto;
+import negocio.beans.Vetor;
 
 public class TestePonto {
 	

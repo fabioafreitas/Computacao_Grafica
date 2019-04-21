@@ -1,8 +1,19 @@
 package unit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+
+import org.junit.Ignore;
 import org.junit.Test;
+
+import negocio.beans.CameraVirtual;
+import negocio.beans.Ponto;
+import negocio.beans.Vetor;
+import negocio.exception.EntradaInvalidaException;
+import negocio.exception.FormatoInvalidoException;
+import negocio.exception.NegocioException;
 
 /**
  * Testando 100% de comandos e de decisão
@@ -10,45 +21,92 @@ import org.junit.Test;
  *
  */
 public class TesteCameraVirtual {
-
+	CameraVirtual cam;
+	String separator = System.getProperty("file.separator");
+	String path = "Teste"+separator;
+	
 	@Test
-	public void testInstanciandoObjetoValido() {
-
+	public void testInstanciandoArquivoValido() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		Ponto c = new Ponto(0, -3, -3);
+		Vetor n = new Vetor(0, 1, -1);
+		Vetor v = new Vetor(0, -1, -1);
+		assertTrue(cam.getPontoC().equals(c));
+		assertTrue(cam.getVetorN().equals(n));
+		assertTrue(cam.getVetorV().equals(v));
+		assertEquals(5,cam.getD(),2);
+		assertEquals(2,cam.getHx(),2);
+		assertEquals(2,cam.getHy(),2);
+	}
+	
+	@Test(expected=FormatoInvalidoException.class)
+	public void testInstanciandoLinhaPontoCVazia() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste2");
+	}
+	
+	@Test(expected=FormatoInvalidoException.class)
+	public void testInstanciandoLinhaVetorNVazia() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste3");
+	}
+	
+	@Test(expected=FormatoInvalidoException.class)
+	public void testInstanciandoLinhaVetorVVazia() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste4");
+	}
+	
+	@Test(expected=FormatoInvalidoException.class)
+	public void testInstanciandoLinhaDVazia() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste5");
+	}
+	
+	@Test(expected=FormatoInvalidoException.class)
+	public void testInstanciandoLinhaHxVazia() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste6");
+	}
+	
+	@Test(expected=FormatoInvalidoException.class)
+	public void testInstanciandoLinhaHyVazia() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste7");
+	}
+	
+	@Test(expected=EntradaInvalidaException.class)
+	public void testInstanciandoDNegativo() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste8");
 	}
 
-	@Test
-	public void testInstanciandoEntradaNula1() {
-
+	@Test(expected=EntradaInvalidaException.class)
+	public void testInstanciandoHxNegativo() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste9");
 	}
 
-	@Test
-	public void testInstanciandoEntradaNula2() {
-
-	}
-
-	@Test
-	public void testInstanciandoEntradaNula3() {
-
-	}
-
-	@Test
-	public void testInstanciandoDNegativo() {
-
+	@Test(expected=EntradaInvalidaException.class)
+	public void testInstanciandoHyNegativo() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste10");
 	}
 	
 	@Test
-	public void testInstanciandoHxNegativo() {
-
+	public void testOrtormalizar() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste11");
+		cam.ortonormalizar();
+		Vetor u = new Vetor(-Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
+		Vetor v = new Vetor(-Math.sqrt(6)/6, -Math.sqrt(6)/6, Math.sqrt(6)/3);
+		Vetor n = new Vetor(-Math.sqrt(3)/3, -Math.sqrt(3)/3, -Math.sqrt(3)/3);
+		assertTrue(cam.getVetorU().equals(u));
+		assertTrue(cam.getVetorV().equals(v));
+		assertTrue(cam.getVetorN().equals(n));
 	}
 	
 	@Test
-	public void testInstanciandoHyNegativo() {
-
+	public void testOrtormalizarMaisDeUmaVez() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste11");
+		cam.ortonormalizar();
+		cam.ortonormalizar();
+		Vetor u = new Vetor(-Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
+		Vetor v = new Vetor(-Math.sqrt(6)/6, -Math.sqrt(6)/6, Math.sqrt(6)/3);
+		Vetor n = new Vetor(-Math.sqrt(3)/3, -Math.sqrt(3)/3, -Math.sqrt(3)/3);
+		assertTrue(cam.getVetorU().equals(u));
+		assertTrue(cam.getVetorV().equals(v));
+		assertTrue(cam.getVetorN().equals(n));
 	}
-
-	@Test
-	public void test() {
-		
-	}
-
+	
 }

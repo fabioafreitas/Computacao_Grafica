@@ -1,4 +1,4 @@
-package beans;
+package negocio.beans;
 
 import negocio.exception.NegocioException;
 import negocio.exception.PontosColinearesException;

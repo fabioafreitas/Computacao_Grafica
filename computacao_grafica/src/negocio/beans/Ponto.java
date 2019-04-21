@@ -1,4 +1,4 @@
-package beans;
+package negocio.beans;
 
 public class Ponto {
 	private double x,y,z;
@@ -49,7 +49,10 @@ public class Ponto {
 	public boolean equals(Ponto p) {
 		if(p == null) 
 			throw new RuntimeException("Ponto nulo");
-		if(this.x == p.x && this.y == p.y && this.z == p.z)
+		double epsilon = 0.00000000001;
+		if(Math.abs(this.x - p.x) < epsilon &&
+		   Math.abs(this.y - p.y) < epsilon &&
+		   Math.abs(this.z - p.z) < epsilon )
 			return true;
 		return false;
 	}

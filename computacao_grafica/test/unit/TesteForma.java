@@ -7,11 +7,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import beans.Forma;
-import beans.Ponto;
+import negocio.beans.Forma;
+import negocio.beans.Ponto;
 import negocio.exception.EntradaInvalidaException;
 import negocio.exception.FormatoInvalidoException;
 import negocio.exception.NegocioException;

@@ -1,4 +1,4 @@
-package beans;
+package negocio.beans;
 
 public class Vetor {
 	private double x,y,z;
@@ -89,10 +89,35 @@ public class Vetor {
 		this.z = z;
 	}
 	
+	public Vetor subtrair(Vetor v) {
+		if(v == null)
+			throw new RuntimeException("Vetor nulo");
+		return new Vetor(this.x - v.x,
+						 this.y - v.y,
+						 this.z - v.z);
+	}
+	
+	public Vetor somar(Vetor v) {
+		if(v == null)
+			throw new RuntimeException("Vetor nulo");
+		return new Vetor(this.x + v.x,
+						 this.y + v.y,
+						 this.z + v.z);
+	}
+	
+	public Vetor multplicarEscalar(double k) {
+		return new Vetor(k*this.x, 
+					 	 k*this.y, 
+						 k*this.z);
+	}
+	
 	public boolean equals(Vetor v) {
 		if(v == null) 
 			throw new RuntimeException("Ponto nulo");
-		if(this.x == v.x && this.y == v.y && this.z == v.z)
+		double epsilon = 0.00000000001;
+		if(Math.abs(this.x - v.x) < epsilon &&
+		   Math.abs(this.y - v.y) < epsilon &&
+		   Math.abs(this.z - v.z) < epsilon )
 			return true;
 		return false;
 	}

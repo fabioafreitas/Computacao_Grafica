@@ -1,7 +1,6 @@
-package beans;
+package negocio.beans;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,11 +12,12 @@ import negocio.exception.NegocioException;
 public class Forma {
 	private ArrayList<Ponto> vertices;
 	private ArrayList<int[]> indicesTriangulos;
+	private BufferedReader reader;
 	
 	public Forma(String fileName) throws IOException, NegocioException {
 		String separator = System.getProperty("file.separator");
 		String path = "Formas"+separator+fileName+".byu";
-		BufferedReader reader = new BufferedReader(new FileReader(path));
+		reader = new BufferedReader(new FileReader(path));
 		
 		// Lógica da extração dos dados
 		String line = reader.readLine();

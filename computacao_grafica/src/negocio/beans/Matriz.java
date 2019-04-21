@@ -1,4 +1,4 @@
-package beans;
+package negocio.beans;
 
 import negocio.exception.EntradaInvalidaException;
 import negocio.exception.MultiplicacaoMatrizInvalidaException;

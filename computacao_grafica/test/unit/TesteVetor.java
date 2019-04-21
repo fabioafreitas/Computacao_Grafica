@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import beans.Vetor;
+import negocio.beans.Vetor;
 
 /**
  * Testando 100% de comandos e de decisão
@@ -163,5 +163,41 @@ public class TesteVetor {
 		v1 = new Vetor(1, 1, 1);
 		v2 = null;
 		boolean a = v1.equals(v2);
+	}
+	
+	@Test
+	public void testSubtrairNaoNulo() {
+		v1 = new Vetor(1, 1, 1);
+		v2 = v1.subtrair(new Vetor(1, 1, 1));
+		Vetor v3 = new Vetor(0, 0, 0);
+		assertTrue(v2.equals(v3));
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testSubtrairNulo() {
+		v1 = new Vetor(1, 1, 1);
+		v2 = v1.subtrair(null);
+	}
+	
+	@Test
+	public void testSomarNaoNulo() {
+		v1 = new Vetor(1, 1, 1);
+		v2 = v1.somar(new Vetor(1, 1, 1));
+		Vetor v3 = new Vetor(2, 2, 2);
+		assertTrue(v2.equals(v3));
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testSomarNulo() {
+		v1 = new Vetor(1, 1, 1);
+		v2 = v1.somar(null);
+	}
+	
+	@Test
+	public void testMultiplicarEscalar() {
+		v1 = new Vetor(1, 1, 1);
+		v2 = v1.multplicarEscalar(2);
+		Vetor v3 = new Vetor(2, 2, 2);
+		assertTrue(v2.equals(v3));
 	}
 }

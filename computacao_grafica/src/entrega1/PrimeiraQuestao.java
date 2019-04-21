@@ -1,9 +1,9 @@
-package view.entrega1;
+package entrega1;
 
-import beans.Matriz;
-import beans.Ponto;
-import beans.Triangulo;
-import beans.Vetor;
+import negocio.beans.Matriz;
+import negocio.beans.Ponto;
+import negocio.beans.Triangulo;
+import negocio.beans.Vetor;
 
 public class PrimeiraQuestao {
 	

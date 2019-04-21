@@ -3,66 +3,27 @@ package negocio;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import beans.CameraVirtual;
-import beans.Forma;
-import beans.Ponto;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import negocio.beans.Forma;
+import negocio.beans.Ponto;
 import negocio.exception.NegocioException;
 
 //TODO corridir a classe drawner, devido a modificação da classe Forma
 public class Drawner { 
-
-	
-	
-//	public static CameraVirtual lerArquivoCameraVirtual(String fileName) throws IOException {
-//		String separator = System.getProperty("file.separator");
-//		String path = "CameraVirtual"+separator+fileName+".txt";
-//		BufferedReader reader = new BufferedReader(new FileReader(path));
-//		
-//		String line = reader.readLine();
-//		String split[] = line.split(" ");
-//		Ponto pontoC = new Ponto(Double.parseDouble(split[0]), 
-// 								 Double.parseDouble(split[1]), 
-//								 Double.parseDouble(split[2]));
-//
-//		line = reader.readLine();
-//		split = line.split(" ");
-//		Vetor vetorN = new Vetor(Double.parseDouble(split[0]), 
-//								 Double.parseDouble(split[1]), 
-//								 Double.parseDouble(split[2]));
-//		
-//		line = reader.readLine();
-//		split = line.split(" ");
-//		Vetor vetorV = new Vetor(Double.parseDouble(split[0]), 
-//								 Double.parseDouble(split[1]), 
-//								 Double.parseDouble(split[2]));
-//		
-//		double d = Double.parseDouble(reader.readLine());
-//		double hx = Double.parseDouble(reader.readLine());
-//		double hy = Double.parseDouble(reader.readLine());
-//		
-//		return new CameraVirtual(pontoC, vetorN, vetorV, d, hx, hy);
-//	}
-	
-	
-	
-	
-	
-	
-
-	
 	
 	/**
-	 * 
-	 * @param objeto canvas que receberá a pintura
-	 * @param nome do arquivo a ser pintado no canvas
-	 * @throws IOException, caso o arquivo .byu não exista
-	 * @throws NegocioException 
-	 * @throws NumberFormatException 
+	 * Método da questão dois da primeira entrega
+	 * @param width
+	 * @param height
+	 * @param fileName
+	 * @return Cena pronta para ser exibida
+	 * @throws IOException
+	 * @throws NumberFormatException
+	 * @throws NegocioException
 	 */
 	public static Scene desenharProjecaoOrtogonal(int width, int height, String fileName) 
 			throws IOException, NumberFormatException, NegocioException {

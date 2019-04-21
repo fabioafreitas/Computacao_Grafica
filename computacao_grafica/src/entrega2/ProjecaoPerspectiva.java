@@ -1,4 +1,4 @@
-package view.entrega2;
+package entrega2;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

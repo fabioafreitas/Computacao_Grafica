@@ -5,10 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import beans.Matriz;
+import negocio.beans.Matriz;
 import negocio.exception.EntradaInvalidaException;
 import negocio.exception.MultiplicacaoMatrizInvalidaException;
 import negocio.exception.NegocioException;
