@@ -1,6 +1,7 @@
 package unit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -24,19 +25,23 @@ public class TesteCameraVirtual {
 	CameraVirtual cam;
 	String separator = System.getProperty("file.separator");
 	String path = "Teste"+separator;
+	Vetor u,v,n;
+	Ponto c;
 	
 	@Test
 	public void testInstanciandoArquivoValido() throws IOException, NegocioException {
 		cam = new CameraVirtual(path+"teste1");
-		Ponto c = new Ponto(0, -3, -3);
-		Vetor n = new Vetor(0, 1, -1);
-		Vetor v = new Vetor(0, -1, -1);
+		c = new Ponto(1, 1, 2);
+		u = new Vetor(-Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
+		v = new Vetor(-Math.sqrt(6)/6, -Math.sqrt(6)/6, Math.sqrt(6)/3);
+		n = new Vetor(-Math.sqrt(3)/3, -Math.sqrt(3)/3, -Math.sqrt(3)/3);
 		assertTrue(cam.getPontoC().equals(c));
-		assertTrue(cam.getVetorN().equals(n));
+		assertTrue(cam.getVetorU().equals(u));
 		assertTrue(cam.getVetorV().equals(v));
-		assertEquals(5,cam.getD(),2);
-		assertEquals(2,cam.getHx(),2);
-		assertEquals(2,cam.getHy(),2);
+		assertTrue(cam.getVetorN().equals(n));
+		assertEquals(1,cam.getD(),2);
+		assertEquals(1,cam.getHx(),2);
+		assertEquals(1,cam.getHy(),2);
 	}
 	
 	@Test(expected=FormatoInvalidoException.class)
@@ -85,28 +90,80 @@ public class TesteCameraVirtual {
 	}
 	
 	@Test
-	public void testOrtormalizar() throws IOException, NegocioException {
-		cam = new CameraVirtual(path+"teste11");
-		cam.ortonormalizar();
-		Vetor u = new Vetor(-Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
-		Vetor v = new Vetor(-Math.sqrt(6)/6, -Math.sqrt(6)/6, Math.sqrt(6)/3);
-		Vetor n = new Vetor(-Math.sqrt(3)/3, -Math.sqrt(3)/3, -Math.sqrt(3)/3);
+	public void testGetPontoC() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		Ponto c = new Ponto(1, 1, 2);
+		assertTrue(cam.getPontoC().equals(c));
+	}
+	
+	@Test
+	public void testGetVetorU() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		u = new Vetor(-Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
 		assertTrue(cam.getVetorU().equals(u));
+	}
+	
+	@Test
+	public void testGetVetorV() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		v = new Vetor(-Math.sqrt(6)/6, -Math.sqrt(6)/6, Math.sqrt(6)/3);
 		assertTrue(cam.getVetorV().equals(v));
+	}
+	
+	@Test
+	public void testGetVetorN() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		n = new Vetor(-Math.sqrt(3)/3, -Math.sqrt(3)/3, -Math.sqrt(3)/3);
 		assertTrue(cam.getVetorN().equals(n));
 	}
 	
 	@Test
-	public void testOrtormalizarMaisDeUmaVez() throws IOException, NegocioException {
+	public void testGetD() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		assertEquals(1, cam.getD(), 2);
+	}
+	
+	@Test
+	public void testGetHx() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		assertEquals(1, cam.getHx(), 2);
+	}
+	
+	@Test
+	public void testGetHy() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste1");
+		assertEquals(1, cam.getHy(), 2);
+	}
+	
+	@Test
+	public void testInstanciarBaseJaOrtogonal() throws IOException, NegocioException {
 		cam = new CameraVirtual(path+"teste11");
-		cam.ortonormalizar();
-		cam.ortonormalizar();
-		Vetor u = new Vetor(-Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
-		Vetor v = new Vetor(-Math.sqrt(6)/6, -Math.sqrt(6)/6, Math.sqrt(6)/3);
-		Vetor n = new Vetor(-Math.sqrt(3)/3, -Math.sqrt(3)/3, -Math.sqrt(3)/3);
+		c = new Ponto(2, 2, 2);
+		u = new Vetor(0, 0, -1);
+		v = new Vetor(1/Math.sqrt(2), -1/Math.sqrt(2), 0);
+		n = new Vetor(1/Math.sqrt(2), 1/Math.sqrt(2), 0);
+		assertTrue(cam.getPontoC().equals(c));
 		assertTrue(cam.getVetorU().equals(u));
 		assertTrue(cam.getVetorV().equals(v));
 		assertTrue(cam.getVetorN().equals(n));
+		assertEquals(1,cam.getD(),2);
+		assertEquals(1,cam.getHx(),2);
+		assertEquals(1,cam.getHy(),2);
 	}
 	
+	@Test
+	public void testInstanciarBaseJaOrtonormal() throws IOException, NegocioException {
+		cam = new CameraVirtual(path+"teste11");
+		c = new Ponto(2, 2, 2);
+		u = new Vetor(0, 0, -1);
+		v = new Vetor(1/Math.sqrt(2), -1/Math.sqrt(2), 0);
+		n = new Vetor(1/Math.sqrt(2), 1/Math.sqrt(2), 0);
+		assertTrue(cam.getPontoC().equals(c));
+		assertTrue(cam.getVetorU().equals(u));
+		assertTrue(cam.getVetorV().equals(v));
+		assertTrue(cam.getVetorN().equals(n));
+		assertEquals(1,cam.getD(),2);
+		assertEquals(1,cam.getHx(),2);
+		assertEquals(1,cam.getHy(),2);
+	}
 }

@@ -7,25 +7,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
-/**
- * criar interface gráfica da entrega 2
- -ter um selectbox para escolher
-        -a camera virtual
-        -a forma a ser desenhada
- -tela com tamanho padrao 800 600
- -canvas no lado direito com tamanho 550 550
- -selects boxes no lado esquerdo
- -lado esquerdo inferior botão "renderizar"
-
- * @author fabio
- *
- */
-public class Main extends Application{
-
+public class Main extends Application{ 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Pane root = FXMLLoader.load(getClass().getResource("TelaProjecaoPerspectiva.fxml"));
+		String sep = System.getProperty("file.separator");
+		Pane root = FXMLLoader.load(getClass().getResource("tela"+sep+"TelaProjecaoPerspectiva.fxml"));
+		primaryStage.setTitle("Computação Gráfica - 2ª Entrega");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 	}

@@ -8,13 +8,21 @@ import negocio.exception.EntradaInvalidaException;
 import negocio.exception.FormatoInvalidoException;
 import negocio.exception.NegocioException;
 
+/*
+ * checar se a base já está ortonormal
+ */
 public class CameraVirtual {
 	private Ponto pontoC; // foco
 	private Vetor vetorU, vetorV, vetorN; // Base do Espaço Vetorial
 	private double d, hx, hy;
 	private BufferedReader reader;
-	private boolean ortonormal;
 	
+	/**
+	 * Instancia uma câmera virtual com sua base já ortonormalizada.
+	 * @param fileName
+	 * @throws IOException
+	 * @throws NegocioException
+	 */
 	public CameraVirtual(String fileName) throws IOException, NegocioException {
 		String separator = System.getProperty("file.separator");
 		String path = "CameraVirtual"+separator+fileName+".txt";
@@ -65,7 +73,8 @@ public class CameraVirtual {
 			throw new EntradaInvalidaException("Valor de Hy negativo");
 		this.hy = Double.parseDouble(line);
 		
-		ortonormal = false;
+		this.ortogonalizarBase();
+		this.normalizarBase();
 	}
 
 	public Ponto getPontoC() {
@@ -97,34 +106,31 @@ public class CameraVirtual {
 	}
 	
 	/**
-	 * Processo de Gram-Schmidt e normalização da base
-	 * Por decisão de projeto, só é possível ortonormalizar uma única vez
+	 * Processo de Gram-Schmidt 
 	 */
-	public void ortonormalizar() {
-		if(!this.ortonormal) {
-			//Ortogonalização
-			double prodEsc1 = this.vetorV.produtoEscalar3D(vetorN);
-			double prodEsc2 = this.vetorN.produtoEscalar3D(vetorN);
-			this.vetorV = vetorV.subtrair(vetorN.multplicarEscalar(prodEsc1/prodEsc2));
-			this.vetorU = vetorN.produtoVetorial(vetorV);
-			
-			//Normalização
-			double normaN = vetorN.norma(); 
-			double normaV = vetorV.norma();
-			double normaU = vetorU.norma();
-			
-			this.vetorN.setX(this.vetorN.getX()/normaN);
-			this.vetorN.setY(this.vetorN.getY()/normaN);
-			this.vetorN.setZ(this.vetorN.getZ()/normaN);
-			
-			this.vetorV.setX(this.vetorV.getX()/normaV);
-			this.vetorV.setY(this.vetorV.getY()/normaV);
-			this.vetorV.setZ(this.vetorV.getZ()/normaV);
-			
-			this.vetorU.setX(this.vetorU.getX()/normaU);
-			this.vetorU.setY(this.vetorU.getY()/normaU);
-			this.vetorU.setZ(this.vetorU.getZ()/normaU);
-			this.ortonormal = true;
-		}
+	private void ortogonalizarBase() {
+		double prodEsc1 = this.vetorV.produtoEscalar3D(vetorN);
+		double prodEsc2 = this.vetorN.produtoEscalar3D(vetorN);
+		if(prodEsc1 != 0) // checa se V e N não são ortogonais
+			this.vetorV = vetorV.subtrair(vetorN.multplicarEscalar(prodEsc1/prodEsc2)); // processo de Gram-Schmidt
+		this.vetorU = vetorN.produtoVetorial(vetorV);
+	}
+	
+	private void normalizarBase() {
+		double normaU = vetorU.norma();
+		double normaV = vetorV.norma();
+		double normaN = vetorN.norma();
+		
+		this.vetorU.setX(this.vetorU.getX()/normaU);
+		this.vetorU.setY(this.vetorU.getY()/normaU);
+		this.vetorU.setZ(this.vetorU.getZ()/normaU);
+	
+		this.vetorV.setX(this.vetorV.getX()/normaV);
+		this.vetorV.setY(this.vetorV.getY()/normaV);
+		this.vetorV.setZ(this.vetorV.getZ()/normaV);
+	
+		this.vetorN.setX(this.vetorN.getX()/normaN);
+		this.vetorN.setY(this.vetorN.getY()/normaN);
+		this.vetorN.setZ(this.vetorN.getZ()/normaN);
 	}
 }

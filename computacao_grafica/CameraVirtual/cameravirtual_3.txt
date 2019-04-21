@@ -2,5 +2,5 @@
 0 1 1
 1 0 1
 1
+1cameravirtual_1
 1
--1

@@ -1,6 +1,7 @@
-package entrega2;
+package entrega2.tela;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
+import negocio.Drawner;
+import negocio.beans.CameraVirtual;
+import negocio.beans.Forma;
+import negocio.exception.NegocioException;
 
 
 public class ControlProjecaoPerspectiva implements Initializable{
@@ -25,6 +30,8 @@ public class ControlProjecaoPerspectiva implements Initializable{
 	private List<String> cameraFiles;
 	private List<String> objetoFiles;
 	private GraphicsContext graphic;
+	private CameraVirtual camera;
+	private Forma objeto;
 	
     @FXML
     private Canvas canvas;
@@ -38,10 +45,18 @@ public class ControlProjecaoPerspectiva implements Initializable{
     @FXML
     private ComboBox<String> cbox_objeto;
     
-
     @FXML
-    void renderizar(ActionEvent event) {
-    	//TODO
+    void renderizar(ActionEvent event) throws IOException, NegocioException {
+    	inicializarCanvas();
+    	
+    	String fileCamera = cbox_camera.getSelectionModel().getSelectedItem();
+    	String fileObjeto = cbox_objeto.getSelectionModel().getSelectedItem();
+    	
+    	camera = new CameraVirtual(fileCamera);
+    	objeto = new Forma(fileObjeto);
+    	
+    	
+    	Drawner.projecaoPerspectiva(canvas, camera, objeto);
     }
 
 	@Override
@@ -50,6 +65,8 @@ public class ControlProjecaoPerspectiva implements Initializable{
 		carregarComboBoxCamera();
 		carregarComboBoxObjeto();
 		inicializarCanvas();
+		
+		
 	}
 	
 	public void carregarComboBoxCamera() {
@@ -87,6 +104,7 @@ public class ControlProjecaoPerspectiva implements Initializable{
 	}
 	
 	public void inicializarCanvas() {
+		graphic.setFill(Color.BLACK);
 		graphic.fillRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 	}
 	
