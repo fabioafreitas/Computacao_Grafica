@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -81,6 +82,8 @@ public class ControlProjecaoPerspectiva implements Initializable{
 		    	cameraFiles.add(fileName);
 		    }
 		}
+		Collections.sort(cameraFiles);
+		
 		
 		obsList = FXCollections.observableArrayList(cameraFiles);
 		cbox_camera.setItems(obsList);
@@ -98,6 +101,7 @@ public class ControlProjecaoPerspectiva implements Initializable{
 		    	objetoFiles.add(fileName);
 		    }
 		}
+		Collections.sort(objetoFiles);
 		
 		obsList = FXCollections.observableArrayList(objetoFiles);
 		cbox_objeto.setItems(obsList);

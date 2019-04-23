@@ -70,10 +70,10 @@ public class Drawner {
 		
 		graphic.setFill(Color.WHITE);
 		for (Ponto ponto : objeto.getVertices()) {
-			ponto = Algebra.baseMundialParaVista(ponto, camera);
-			ponto = Algebra.converterPontoPerspectivaNormalizado(ponto, camera);
-			ponto = Algebra.coverterPontoCoordenadaTela(ponto, width, height);
-			
+			ponto = Algebra.getCoordenadasVista(ponto, camera);
+			ponto = Algebra.getProjecaoPerspectiva(ponto, camera);
+			ponto = Algebra.getPerspectivaNormalizada(ponto, camera);
+			ponto = Algebra.getCoordenadaTela(ponto, width, height);
 			graphic.fillRect(ponto.getX(), ponto.getY(), 1, 1);
 		}
 	}
