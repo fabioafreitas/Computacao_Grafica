@@ -10,9 +10,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
+import negocio.Drawner;
 import negocio.beans.Forma;
 import negocio.beans.Ponto;
+import negocio.beans.Triangulo;
 
 public class TesteScanLine extends Application{
     public static void rasterizarLinha(Ponto p0, Ponto p1, GraphicsContext graphic) {                    
@@ -80,16 +81,10 @@ public class TesteScanLine extends Application{
 //		}
 		Ponto p0 = new Ponto(100, 100, 1);
 		Ponto p1 = new Ponto(200, 250, 1);
-		rasterizarLinha(p1, p0, graphic);
-		p0 = new Ponto(200, 250, 1);
-		p1 = new Ponto(400, 400, 1);
-		rasterizarLinha(p1, p0, graphic);
-		p0 = new Ponto(400, 400, 1);
-		p1 = new Ponto(100, 100, 1);
-		rasterizarLinha(p1, p0, graphic);
-		p0 = new Ponto(250, 300, 1);
-		p1 = new Ponto(250, 500, 1);
-		rasterizarLinha(p1, p0, graphic);
+		Ponto p2 = new Ponto(400, 400, 1);
+		
+		Drawner.rasterizarTriangulo(new Triangulo(p0, p1, p2));
+		
 		Group group = new Group(canvas);
 		Scene scene = new Scene(group);
 		primaryStage.setScene(scene);

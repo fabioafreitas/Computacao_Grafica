@@ -57,7 +57,6 @@ public class Drawner {
 
 	/**
 	 * Metodo da segunda entrega
-	 * TODO Rasterização
 	 * @param canvas
 	 * @param camera
 	 * @param objeto
@@ -81,13 +80,19 @@ public class Drawner {
 			ponto = Algebra.getCoordenadaTela(ponto, width, height);
 		}
 		
-		// Rasterizando os triangulos do objeto
 		for (int[] index : indexTriangulos) {
-			Triangulo triangulo = new Triangulo(vertices.get(index[0]), 
-												vertices.get(index[1]), 
-												vertices.get(index[2]));
-			rasterizarTriangulo(triangulo);
+			rasterizarLinha(vertices.get(index[0]), vertices.get(index[1]));
+			rasterizarLinha(vertices.get(index[1]), vertices.get(index[2]));
+			rasterizarLinha(vertices.get(index[0]), vertices.get(index[2]));
 		}
+		
+		// Rasterizando os triangulos do objeto
+//		for (int[] index : indexTriangulos) {
+//			Triangulo triangulo = new Triangulo(vertices.get(index[0]), 
+//												vertices.get(index[1]), 
+//												vertices.get(index[2]));
+//			rasterizarTriangulo(triangulo);
+//		}
 	}
 	
 	/**
@@ -101,7 +106,7 @@ public class Drawner {
 	 * @param graphic
 	 * @throws NegocioException
 	 */
-	private static void rasterizarTriangulo(Triangulo triangulo) throws NegocioException {
+	public static void rasterizarTriangulo(Triangulo triangulo) throws NegocioException {
 		int y1 = (int) triangulo.getP1().getY();
 		int y2 = (int) triangulo.getP2().getY();
 		int y3 = (int) triangulo.getP3().getY();
@@ -141,15 +146,38 @@ public class Drawner {
 		}
 		
 		if( (int) pComum.getY() < (int) p1.getY()) { // o comum acima, pintar de baixo para cima
-			Ponto pMin = pComum;
-			Ponto pMax = pComum;
-			do {
-//				int xScan 
-//				int yScan
-			} while(!pComum.equals(pMin));
+			double xMin = pComum.getX();
+			double yMin = pComum.getY();
+			double xMax = pComum.getX();
+			double yMax = pComum.getY();
+			Ponto pMax = new Ponto(xMax, yMax, 0);
+			Ponto pMin = new Ponto(xMin, yMin, 0);
+			while(!pMin.equals(p1) && !pMax.equals(p2)) {
+				rasterizarLinha(pMin, pMax);
+				yMin -= 1;
+				yMax -= 1;
+				xMin = equacaoReta(yMin, pComum, p1);
+				xMax = equacaoReta(yMax, pComum, p2);
+				pMin.setX(xMin);
+				pMin.setY(yMin);
+				pMax.setX(xMax);
+				pMax.setY(yMax);
+			}
 		}
 		else { // o comum abaixo, pintar de cima para baixo
-			
+			double xMin = pComum.getX();
+			double yMin = pComum.getY();
+			double xMax = pComum.getX();
+			double yMax = pComum.getY();
+			Ponto pMax = new Ponto(xMax, yMax, 0);
+			Ponto pMin = new Ponto(xMin, yMin, 0);
+			while(!pMin.equals(p1) && !pMax.equals(p2)) {
+				rasterizarLinha(pMin, pMax);
+				yMin += 1;
+				yMax += 1;
+				xMin = equacaoReta(yMin, pComum, p1);
+				xMax = equacaoReta(yMax, pComum, p2);
+			}
 		}
 	}
 	
@@ -179,9 +207,12 @@ public class Drawner {
 								new Triangulo(p2, p3, pontoCorte)};
 	}
 	
-	private static void rasterizarLinha(Ponto p0, Ponto p1, GraphicsContext graphic) {                    
-        if(!p0.equals(p1)) {
-    		int x0 = (int) p0.getX();
+	private static void rasterizarLinha(Ponto p0, Ponto p1) {
+        if(p0.equals(p1)) {
+        	graphic.fillRect( p0.getX(), p0.getY(), 1, 1);
+        }
+        else {
+        	int x0 = (int) p0.getX();
             int y0 = (int) p0.getY();
             int x1 = (int) p1.getX();
             int y1 = (int) p1.getY();
@@ -205,20 +236,17 @@ public class Drawner {
                 }
             }
         }
-        else {
-        	graphic.fillRect( p0.getX(), p0.getY(), 1, 1);
-        }
     }
+	
+	private static double equacaoReta(double y, Ponto p0, Ponto p1) {
+		double declive = (p1.getX()-p0.getX())/(p1.getY()-p0.getY());
+		return declive*(y-p0.getY()) + p0.getX();
+	}
 	
 	public static void main(String[] args) throws NegocioException {
 		Triangulo t = new Triangulo(new Ponto(0, 3, 0),
 									new Ponto(2, 2, 0),
 									new Ponto(1, 1, 0));
 		rasterizarTriangulo(t);
-		
-		Triangulo t2 = new Triangulo(new Ponto(0, 3, 0),
-										new Ponto(2, 2, 0),
-										new Ponto(1.1, 4, 0));
-		rasterizarTriangulo(t2);
 	} 
 }
