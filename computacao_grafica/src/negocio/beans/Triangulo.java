@@ -69,6 +69,10 @@ public class Triangulo {
 		return p3;
 	}
 	
+	public Ponto[] getPontos() {
+		return new Ponto[] {this.p1, this.p2, this.p3};
+	}
+	
 	public void setP1(Ponto p1) throws PontosColinearesException {
 		if(p1 == null)
 			throw new RuntimeException("Ponto Nulo");

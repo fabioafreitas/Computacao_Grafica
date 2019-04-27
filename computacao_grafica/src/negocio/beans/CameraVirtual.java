@@ -75,6 +75,7 @@ public class CameraVirtual {
 		
 		this.ortogonalizarBase();
 		this.normalizarBase();
+		reader.close();
 	}
 
 	public Ponto getPontoC() {
