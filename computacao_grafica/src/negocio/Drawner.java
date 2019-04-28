@@ -13,11 +13,10 @@ import negocio.beans.Forma;
 import negocio.beans.Ponto;
 import negocio.beans.Triangulo;
 import negocio.exception.NegocioException;
+import negocio.exception.RasterizacaoException;
 
 //TODO corridir a classe drawner, devido a modificação da classe Forma
-public class Drawner { 
-	private static GraphicsContext graphic;
-	
+public class Drawner { 	
 	/**
 	 * Método da questão dois da primeira entrega
 	 * @param width
@@ -38,6 +37,7 @@ public class Drawner {
 		canvas.setTranslateX(margin/2);
 		canvas.setTranslateY(margin/2);
 		
+		GraphicsContext graphic = canvas.getGraphicsContext2D();
 		graphic = canvas.getGraphicsContext2D();
 		ArrayList<Ponto> pontos = form.getVertices();
 		
@@ -63,6 +63,7 @@ public class Drawner {
 	 * @throws NegocioException 
 	 */
 	public static void projecaoPerspectiva(Canvas canvas, CameraVirtual camera, Forma objeto) throws NegocioException {
+		GraphicsContext graphic = canvas.getGraphicsContext2D();
 		graphic = canvas.getGraphicsContext2D();
 		graphic.setFill(Color.WHITE);
 		int width  = (int) canvas.getWidth(); 
@@ -80,19 +81,13 @@ public class Drawner {
 			ponto = Algebra.getCoordenadaTela(ponto, width, height);
 		}
 		
-		for (int[] index : indexTriangulos) {
-			rasterizarLinha(vertices.get(index[0]), vertices.get(index[1]));
-			rasterizarLinha(vertices.get(index[1]), vertices.get(index[2]));
-			rasterizarLinha(vertices.get(index[0]), vertices.get(index[2]));
-		}
-		
 		// Rasterizando os triangulos do objeto
-//		for (int[] index : indexTriangulos) {
-//			Triangulo triangulo = new Triangulo(vertices.get(index[0]), 
-//												vertices.get(index[1]), 
-//												vertices.get(index[2]));
-//			rasterizarTriangulo(triangulo);
-//		}
+		for (int[] index : indexTriangulos) {
+			Triangulo triangulo = new Triangulo(vertices.get(index[0]), 
+												vertices.get(index[1]), 
+												vertices.get(index[2]));
+			rasterizarTriangulo(triangulo, graphic);
+		}
 	}
 	
 	/**
@@ -106,48 +101,58 @@ public class Drawner {
 	 * @param graphic
 	 * @throws NegocioException
 	 */
-	public static void rasterizarTriangulo(Triangulo triangulo) throws NegocioException {
+	public static void rasterizarTriangulo(Triangulo triangulo, GraphicsContext graphic) throws NegocioException {
 		int y1 = (int) triangulo.getP1().getY();
 		int y2 = (int) triangulo.getP2().getY();
 		int y3 = (int) triangulo.getP3().getY();
 		
 		if(y1 != y2 && y2 != y3 && y1 != y3) {
 			Triangulo[] listTriangulo = dividirTriangulo(triangulo);
-			rasterizarTriangulo(listTriangulo[0]);
-			rasterizarTriangulo(listTriangulo[1]);
+//			scanLineTrianguloCima(listTriangulo[0], graphic);
+//			scanLineTrianguloBaixo(listTriangulo[1], graphic);
+			rasterizarTriangulo(listTriangulo[0], graphic);
+			rasterizarTriangulo(listTriangulo[1], graphic);
 		}
 		else {
-			
+			Ponto[] list = ordenaPontos(triangulo.getPontos());
+			if((int) list[1].getY() == (int) list[2].getY())
+				scanLineTrianguloCima(triangulo, graphic);
+			else
+				scanLineTrianguloBaixo(triangulo, graphic);
+				
 		}
 	}
 	
+	/**
+	 * Separa um triangulo, cujas coordenadas Y sao todas diferentes
+	 * Retorna o triangulo de cime e o de baixo, respectivamente
+	 * @param triangulo
+	 * @return
+	 * @throws NegocioException
+	 */
 	private static Triangulo[] dividirTriangulo(Triangulo triangulo) throws NegocioException {
 		Ponto p1, p2, p3;
-		Ponto[] listPonto = triangulo.getPontos();
-		for (int i = 0; i < listPonto.length; i++) {
-			for (int j = i+1; j < listPonto.length; j++) {
-				if(listPonto[j].getY() < listPonto[i].getY()) {
-					Ponto aux = listPonto[j];
-					listPonto[j] = listPonto[i];
-					listPonto[i] = aux;
-				}
-			}
-		}
+		Ponto[] listPonto = ordenaPontos(triangulo.getPontos());
 		p1 = listPonto[0]; // ponto alto
 		p2 = listPonto[1]; // ponto medio
 		p3 = listPonto[2]; // ponto baixo
 		
 		// Calculando ponto (ponto de corte) que divide o triangulo 
-		double declive = ((p3.getX() - p1.getX()))/((p3.getY() - p1.getY()));
 		double y = p2.getY();
-		double x = declive*(y - p1.getY()) + p1.getX();
+		double x = equacaoReta(y, p1, p3);
 		Ponto pontoCorte = new Ponto(x,y,0);
 		
 		return new Triangulo[] {new Triangulo(p1, p2, pontoCorte),
 								new Triangulo(p2, p3, pontoCorte)};
 	}
 	
-	private static void rasterizarLinha(Ponto p0, Ponto p1) {
+	/**
+	 * Desenha uma linha entre dois pontos de entrada
+	 * independe da posicao dos pontos
+	 * @param p0
+	 * @param p1
+	 */
+	private static void rasterizarLinha(Ponto p0, Ponto p1, GraphicsContext graphic) {
         if(p0.equals(p1)) {
         	graphic.fillRect( p0.getX(), p0.getY(), 1, 1);
         }
@@ -178,11 +183,115 @@ public class Drawner {
         }
     }
 	
+	/**
+	 * calcula o scanLine de um triangulo do formato abaixo
+	 * para ser rasterizado
+	 *  /\
+	 * /__\
+	 * @param triangulo
+	 * @param graphic
+	 * @throws NegocioException
+	 */
+    private static void scanLineTrianguloCima(Triangulo t, GraphicsContext graphic) throws NegocioException {
+    	Ponto[] list = ordenaPontos(t.getPontos());
+    	
+    	//triangulo com ponta para baixo
+    	if((int) list[0].getY() == (int) list[1].getY() )
+    		throw new RasterizacaoException("ponto comum abaixo dos demais");
+    		
+    	Ponto ptop = list[0];
+    	Ponto pdir = list[1];
+    	Ponto pesq = list[2];
+    	
+    	int xMin = (int) ptop.getX();
+    	int yMin = (int) ptop.getY();
+    	int xMax = (int) ptop.getX();
+    	int yMax = (int) ptop.getY();
+    	
+    	Ponto pmin = new Ponto(xMin, yMin, 0);
+		Ponto pmax = new Ponto(xMax, yMax, 0);
+    	while((int) pmin.getY() <= (int) pesq.getY()) {
+    		rasterizarLinha(pmin, pmax, graphic);
+    		yMin++;
+    		yMax++;
+    		xMin = (int) equacaoReta(yMin, ptop, pesq);
+    		xMax = (int) equacaoReta(yMax, ptop, pdir);
+    		pmin = new Ponto(xMin, yMin, 0);
+    		pmax = new Ponto(xMax, yMax, 0);
+    	}
+    }
 	
-	public static void main(String[] args) throws NegocioException {
-		Triangulo t = new Triangulo(new Ponto(0, 3, 0),
-									new Ponto(2, 2, 0),
-									new Ponto(1, 1, 0));
-		rasterizarTriangulo(t);
-	} 
+    /**
+	 * calcula o scanLine de um triangulo do formato abaixo
+	 * para ser rasterizado
+	 * ____
+	 * \  /
+	 *  \/
+	 * @param triangulo
+	 * @param graphic
+	 * @throws NegocioException
+	 */
+	private static void scanLineTrianguloBaixo(Triangulo t, GraphicsContext graphic) throws NegocioException {
+    	Ponto[] list = ordenaPontos(t.getPontos());
+    	
+    	//triangulo com ponta para cima
+    	if((int) list[1].getY() == (int) list[2].getY() )
+    		throw new RasterizacaoException("ponto comum a cima dos demais");
+    		
+    	Ponto pdir = list[0];
+    	Ponto pesq = list[1];
+    	Ponto plow = list[2];
+    	
+    	int xMin = (int) plow.getX();
+    	int yMin = (int) plow.getY();
+    	int xMax = (int) plow.getX();
+    	int yMax = (int) plow.getY();
+    	
+    	Ponto pmin = new Ponto(xMin, yMin, 0);
+		Ponto pmax = new Ponto(xMax, yMax, 0);
+    	while((int) pmin.getY() >= (int) pesq.getY()) {
+    		rasterizarLinha(pmin, pmax, graphic);
+    		yMin--;
+    		yMax--;
+    		xMin = (int) equacaoReta(yMin, plow, pesq);
+    		xMax = (int) equacaoReta(yMax, plow, pdir);
+    		pmin = new Ponto(xMin, yMin, 0);
+    		pmax = new Ponto(xMax, yMax, 0);
+    	}
+    }
+	
+	/**
+	 * Calcula o valor correspondente do eixo X
+	 * referente a seu valor de Y
+	 * f(y)=x
+	 * @param y
+	 * @param pa
+	 * @param pb
+	 * @return
+	 */
+	private static double equacaoReta(double y, Ponto pa, Ponto pb) {
+    	double a = pb.getX() - pa.getX();
+    	double b = pb.getY() - pa.getY();
+    	double c = y - pa.getY();
+    	return (a/b)*c + pa.getX();
+    }
+	
+	/**
+	 * Ordena pontos com relação a seu eixo Y
+	 * utilizada em pontos de triangulos
+	 * @param list
+	 * @return
+	 */
+	private static Ponto[] ordenaPontos(Ponto[] list) {
+    	for (int i = 0; i < list.length; i++) {
+			for (int j = i+1; j < list.length; j++) {
+				if(list[j].getY() < list[i].getY()) {
+					Ponto aux = list[j];
+					list[j] = list[i];
+					list[i] = aux;
+				}
+			}
+		}
+    	return list;
+    }
 }

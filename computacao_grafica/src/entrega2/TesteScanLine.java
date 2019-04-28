@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import negocio.Drawner;
 import negocio.beans.Ponto;
 import negocio.beans.Triangulo;
 import negocio.exception.NegocioException;
@@ -62,19 +63,19 @@ public class TesteScanLine extends Application{
     		rasterizarLinha(pmin, pmax, graphic);
     		yMin++;
     		yMax++;
-    		xMin = equacaoReta(yMin, ptop, pesq);
-    		xMax = equacaoReta(yMax, ptop, pdir);
+    		xMin = (int) equacaoReta(yMin, ptop, pesq);
+    		xMax = (int) equacaoReta(yMax, ptop, pdir);
     		pmin = new Ponto(xMin, yMin, 0);
     		pmax = new Ponto(xMax, yMax, 0);
     	}
 
     }
     
-    public static int equacaoReta(int y, Ponto pa, Ponto pb) {
+    public static double equacaoReta(double y, Ponto pa, Ponto pb) {
     	double a = pb.getX() - pa.getX();
     	double b = pb.getY() - pa.getY();
     	double c = y - pa.getY();
-    	return (int) ((a/b)*c + pa.getX());
+    	return (a/b)*c + pa.getX();
     }
     
     public static void rasterizarTrianguloBaixo(Triangulo t, GraphicsContext graphic) throws NegocioException {
@@ -99,8 +100,8 @@ public class TesteScanLine extends Application{
     		rasterizarLinha(pmin, pmax, graphic);
     		yMin--;
     		yMax--;
-    		xMin = equacaoReta(yMin, plow, pesq);
-    		xMax = equacaoReta(yMax, plow, pdir);
+    		xMin = (int) equacaoReta(yMin, plow, pesq);
+    		xMax = (int) equacaoReta(yMax, plow, pdir);
     		pmin = new Ponto(xMin, yMin, 0);
     		pmax = new Ponto(xMax, yMax, 0);
     	}
@@ -132,15 +133,37 @@ public class TesteScanLine extends Application{
 
 		Ponto ptop, plow, pdir, pesq;
 		
-		ptop = new Ponto(300, 100, 1);
-		pdir = new Ponto(250, 150, 1);
-		pesq = new Ponto(350, 150, 1);
-		rasterizarTrianguloCima(new Triangulo(ptop, pdir, pesq), graphic);
+//		ptop = new Ponto(300, 100, 1);
+//		pdir = new Ponto(250, 150, 1);
+//		pesq = new Ponto(350, 150, 1);
+//		rasterizarTrianguloCima(new Triangulo(ptop, pdir, pesq), graphic);
+//		
+//		plow = new Ponto(300, 200, 1);
+//		pdir = new Ponto(250, 150, 1);
+//		pesq = new Ponto(350, 150, 1);
+//		rasterizarTrianguloBaixo(new Triangulo(plow, pdir, pesq), graphic);
 		
-		plow = new Ponto(300, 200, 1);
-		pdir = new Ponto(250, 150, 1);
-		pesq = new Ponto(350, 150, 1);
-		rasterizarTrianguloBaixo(new Triangulo(plow, pdir, pesq), graphic);
+		Ponto p1, p2, p3;
+//		p1 = new Ponto(0, 0, 0);
+//		p2 = new Ponto(200, 200, 0);
+//		p3 = new Ponto(100, 300, 0);
+//		Drawner.rasterizarTriangulo(new Triangulo(p1, p2, p3), graphic);
+//		
+//		p1 = new Ponto(300, 100, 1);
+//		p2 = new Ponto(250, 150, 1);
+//		p3 = new Ponto(350, 150, 1);
+//		Drawner.rasterizarTriangulo(new Triangulo(p1, p2, p3), graphic);
+//		
+//		p1 = new Ponto(300, 200, 1);
+//		p2 = new Ponto(250, 150, 1);
+//		p3 = new Ponto(350, 150, 1);
+//		Drawner.rasterizarTriangulo(new Triangulo(p1, p2, p3), graphic);
+		
+		p1 = new Ponto(34.66, 201.4, 1);
+		p2 = new Ponto(234.121212, 588.1, 1);
+		p3 = new Ponto(500.2, 123.123, 1);
+		Drawner.rasterizarTriangulo(new Triangulo(p1, p2, p3), graphic);
+		
 		
 		
 		Group group = new Group(canvas);
