@@ -1,8 +1,5 @@
 package entrega2;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,10 +7,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import negocio.Drawner;
-import negocio.beans.Forma;
 import negocio.beans.Ponto;
 import negocio.beans.Triangulo;
+import negocio.exception.NegocioException;
+import negocio.exception.RasterizacaoException;
 
 public class TesteScanLine extends Application{
     public static void rasterizarLinha(Ponto p0, Ponto p1, GraphicsContext graphic) {                    
@@ -42,52 +39,33 @@ public class TesteScanLine extends Application{
         }                                
     }
     
-    public static void rasterizarTrianguloCima(Triangulo t, GraphicsContext graphic) throws InterruptedException {
-    	Ponto[] list = t.getPontos();
-    	for (int i = 0; i < list.length; i++) {
-			for (int j = i+1; j < list.length; j++) {
-				if(list[j].getY() < list[i].getY()) {
-					Ponto aux = list[j];
-					list[j] = list[i];
-					list[i] = aux;
-				}
-			}
-		}
+    // só funciona se o ponto comum estiver acima dos outros dois
+    public static void rasterizarTrianguloCima(Triangulo t, GraphicsContext graphic) throws NegocioException {
+    	Ponto[] list = ordenaPontos(t.getPontos());
     	
-    	Ponto top = list[0];
-    	Ponto dir = list[1];
-    	Ponto esq = list[2];
+    	//triangulo de ponta cabeça
+    	if((int) list[0].getY() == (int) list[1].getY() )
+    		throw new RasterizacaoException("ponto comum abaixo dos demais");
+    		
+    	Ponto ptop = list[0];
+    	Ponto pdir = list[1];
+    	Ponto pesq = list[2];
     	
-//    	top.setX( (int) top.getX() );
-//    	top.setY( (int) top.getY() );
-//    	dir.setX( (int) dir.getX() );
-//    	dir.setY( (int) dir.getY() );
-//    	esq.setX( (int) esq.getX() );
-//    	esq.setY( (int) esq.getY() );
-    	 
-    	int topx = (int) top.getX();
-    	int topy = (int) top.getY();
+    	int xMin = (int) ptop.getX();
+    	int yMin = (int) ptop.getY();
+    	int xMax = (int) ptop.getX();
+    	int yMax = (int) ptop.getY();
     	
-    	int dirx = (int) dir.getX();
-    	int diry = (int) dir.getY();
-    	
-    	int esqx = (int) esq.getX();
-    	int esqy = (int) esq.getY();
-    	
-    	
-    	int minx = topx;
-    	int miny = topy;
-    	
-    	int maxx = topx;
-    	int maxy = topy;
-    	while((minx != dirx) && (miny != diry)) {
-    		Ponto min = new Ponto(minx, miny, 0);
-    		Ponto max = new Ponto(maxx, maxy, 0);
-    		rasterizarLinha(min, max, graphic);
-    		miny++;
-    		maxy++;
-    		minx = equacaoReta(miny, top, esq);
-    		maxx = equacaoReta(maxy, top, dir);
+    	Ponto pmin = new Ponto(xMin, yMin, 0);
+		Ponto pmax = new Ponto(xMax, yMax, 0);
+    	while((int) pmin.getY() <= (int) pesq.getY()) {
+    		rasterizarLinha(pmin, pmax, graphic);
+    		yMin++;
+    		yMax++;
+    		xMin = equacaoReta(yMin, ptop, pesq);
+    		xMax = equacaoReta(yMax, ptop, pdir);
+    		pmin = new Ponto(xMin, yMin, 0);
+    		pmax = new Ponto(xMax, yMax, 0);
     	}
 
     }
@@ -97,6 +75,49 @@ public class TesteScanLine extends Application{
     	double b = pb.getY() - pa.getY();
     	double c = y - pa.getY();
     	return (int) ((a/b)*c + pa.getX());
+    }
+    
+    public static void rasterizarTrianguloBaixo(Triangulo t, GraphicsContext graphic) throws NegocioException {
+    	Ponto[] list = ordenaPontos(t.getPontos());
+    	
+    	//triangulo de ponta cabeça
+    	if((int) list[1].getY() == (int) list[2].getY() )
+    		throw new RasterizacaoException("ponto comum a cima dos demais");
+    		
+    	Ponto pdir = list[0];
+    	Ponto pesq = list[1];
+    	Ponto plow = list[2];
+    	
+    	int xMin = (int) plow.getX();
+    	int yMin = (int) plow.getY();
+    	int xMax = (int) plow.getX();
+    	int yMax = (int) plow.getY();
+    	
+    	Ponto pmin = new Ponto(xMin, yMin, 0);
+		Ponto pmax = new Ponto(xMax, yMax, 0);
+    	while((int) pmin.getY() >= (int) pesq.getY()) {
+    		rasterizarLinha(pmin, pmax, graphic);
+    		yMin--;
+    		yMax--;
+    		xMin = equacaoReta(yMin, plow, pesq);
+    		xMax = equacaoReta(yMax, plow, pdir);
+    		pmin = new Ponto(xMin, yMin, 0);
+    		pmax = new Ponto(xMax, yMax, 0);
+    	}
+
+    }
+    
+    public static Ponto[] ordenaPontos(Ponto[] list) {
+    	for (int i = 0; i < list.length; i++) {
+			for (int j = i+1; j < list.length; j++) {
+				if(list[j].getY() < list[i].getY()) {
+					Ponto aux = list[j];
+					list[j] = list[i];
+					list[i] = aux;
+				}
+			}
+		}
+    	return list;
     }
 	
 	@Override
@@ -109,10 +130,18 @@ public class TesteScanLine extends Application{
 		graphic.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		graphic.setFill(Color.WHITE);
 
-		Ponto ptop = new Ponto(300, 100, 1);
-		Ponto pdir = new Ponto(250, 150, 1);
-		Ponto pesq = new Ponto(350, 150, 1);
+		Ponto ptop, plow, pdir, pesq;
+		
+		ptop = new Ponto(300, 100, 1);
+		pdir = new Ponto(250, 150, 1);
+		pesq = new Ponto(350, 150, 1);
 		rasterizarTrianguloCima(new Triangulo(ptop, pdir, pesq), graphic);
+		
+		plow = new Ponto(300, 200, 1);
+		pdir = new Ponto(250, 150, 1);
+		pesq = new Ponto(350, 150, 1);
+		rasterizarTrianguloBaixo(new Triangulo(plow, pdir, pesq), graphic);
+		
 		
 		Group group = new Group(canvas);
 		Scene scene = new Scene(group);
