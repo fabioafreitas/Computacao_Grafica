@@ -95,4 +95,16 @@ public class Algebra {
 						 Math.floor( height - ((ponto.getY()+1)/2)*height + 0.5 ),
 						 ponto.getZ());
 	}
+	
+	public static boolean verificarColinearidade(Ponto p1, Ponto p2, Ponto p3) {
+		int xp1 = (int) p1.getX();
+		int yp1 = (int) p1.getY();
+		int xp2 = (int) p2.getX();
+		int yp2 = (int) p2.getY();
+		int xp3 = (int) p3.getX();
+		int yp3 = (int) p3.getY();
+		return 0 == (xp1*yp2 + yp1*xp3 + xp2*yp3 )-( xp3*yp2 + yp3*xp1 + xp2*yp1);
+//		return 0 == ( p1.getX()*p2.getY() + p1.getY()*p3.getX() + p2.getX()*p3.getY())
+//					-(p3.getX()*p2.getY() + p3.getY()*p1.getX() + p2.getX()*p1.getY());
+	}
 }

@@ -3,11 +3,15 @@ package negocio;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.junit.rules.Verifier;
+
+import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import negocio.beans.CameraVirtual;
 import negocio.beans.Forma;
 import negocio.beans.Ponto;
@@ -15,8 +19,7 @@ import negocio.beans.Triangulo;
 import negocio.exception.NegocioException;
 import negocio.exception.RasterizacaoException;
 
-//TODO corridir a classe drawner, devido a modificação da classe Forma
-public class Drawner { 	
+public class Drawner{ 	
 	/**
 	 * Método da questão dois da primeira entrega
 	 * @param width
@@ -68,25 +71,39 @@ public class Drawner {
 		graphic.setFill(Color.WHITE);
 		int width  = (int) canvas.getWidth(); 
 		int height = (int) canvas.getHeight();
-		//graphic.fillRect(ponto.getX(), ponto.getY(), 1, 1);
 		
 		ArrayList<Ponto> vertices = objeto.getVertices();
 		ArrayList<int[]> indexTriangulos = objeto.getIndiceTriangulos();
 		
 		// Transformações dos pontos do objeto para coordenadas de tela
-		for (Ponto ponto : vertices) {
-			ponto = Algebra.getCoordenadasVista(ponto, camera);
+		Ponto ponto = null;
+		for (int i = 0; i < vertices.size(); i++) {
+			ponto = Algebra.getCoordenadasVista(vertices.get(i), camera);
 			ponto = Algebra.getProjecaoPerspectiva(ponto, camera);
 			ponto = Algebra.getPerspectivaNormalizada(ponto, camera);
 			ponto = Algebra.getCoordenadaTela(ponto, width, height);
+			vertices.get(i).setX(ponto.getX());
+			vertices.get(i).setY(ponto.getY());
+			vertices.get(i).setZ(ponto.getZ());
+			//graphic.fillRect(ponto.getX(), ponto.getY(), 1, 1);
 		}
-		
+
 		// Rasterizando os triangulos do objeto
 		for (int[] index : indexTriangulos) {
-			Triangulo triangulo = new Triangulo(vertices.get(index[0]), 
-												vertices.get(index[1]), 
-												vertices.get(index[2]));
-			rasterizarTriangulo(triangulo, graphic);
+			Ponto p1 = vertices.get(index[0]);
+			Ponto p2 = vertices.get(index[1]);
+			Ponto p3 = vertices.get(index[2]);
+			
+			/*
+			 * Apos as operacoes algebricas, os pontos mudam de posicao.
+			 * Caso essas conversoes gerem tres pontos colinear, entao
+			 * nao tera como rasterizado
+			 * Este if testa esta situacao
+			 */
+			if(!Algebra.verificarColinearidade(p1, p2, p3)) {
+				Triangulo triangulo = new Triangulo(p1, p2, p3);
+				rasterizarTriangulo(triangulo, graphic); 
+			}
 		}
 	}
 	
@@ -108,8 +125,6 @@ public class Drawner {
 		
 		if(y1 != y2 && y2 != y3 && y1 != y3) {
 			Triangulo[] listTriangulo = dividirTriangulo(triangulo);
-//			scanLineTrianguloCima(listTriangulo[0], graphic);
-//			scanLineTrianguloBaixo(listTriangulo[1], graphic);
 			rasterizarTriangulo(listTriangulo[0], graphic);
 			rasterizarTriangulo(listTriangulo[1], graphic);
 		}
