@@ -117,67 +117,7 @@ public class Drawner {
 			rasterizarTriangulo(listTriangulo[1]);
 		}
 		else {
-			scanLine(triangulo);
-		}
-	}
-	
-	private static void scanLine(Triangulo triangulo) {
-		Ponto pComum = null, p1 = null, p2 = null;
-		Ponto[] listPonto = triangulo.getPontos();
-		int y1 = (int) listPonto[0].getY();
-		int y2 = (int) listPonto[1].getY();
-		int y3 = (int) listPonto[2].getY();
-		
-		// Descobrindo o ponto em comum de ambas as linhas
-		if(y1 == y2) {
-			pComum = listPonto[2];
-			p1 = listPonto[0];
-			p2 = listPonto[1];
-		}
-		else if(y1 == y3) {
-			pComum = listPonto[1];
-			p1 = listPonto[0];
-			p2 = listPonto[2];
-		}
-		else if(y2 == y3) {
-			pComum = listPonto[0];
-			p1 = listPonto[1];
-			p2 = listPonto[2];
-		}
-		
-		if( (int) pComum.getY() < (int) p1.getY()) { // o comum acima, pintar de baixo para cima
-			double xMin = pComum.getX();
-			double yMin = pComum.getY();
-			double xMax = pComum.getX();
-			double yMax = pComum.getY();
-			Ponto pMax = new Ponto(xMax, yMax, 0);
-			Ponto pMin = new Ponto(xMin, yMin, 0);
-			while(!pMin.equals(p1) && !pMax.equals(p2)) {
-				rasterizarLinha(pMin, pMax);
-				yMin -= 1;
-				yMax -= 1;
-				xMin = equacaoReta(yMin, pComum, p1);
-				xMax = equacaoReta(yMax, pComum, p2);
-				pMin.setX(xMin);
-				pMin.setY(yMin);
-				pMax.setX(xMax);
-				pMax.setY(yMax);
-			}
-		}
-		else { // o comum abaixo, pintar de cima para baixo
-			double xMin = pComum.getX();
-			double yMin = pComum.getY();
-			double xMax = pComum.getX();
-			double yMax = pComum.getY();
-			Ponto pMax = new Ponto(xMax, yMax, 0);
-			Ponto pMin = new Ponto(xMin, yMin, 0);
-			while(!pMin.equals(p1) && !pMax.equals(p2)) {
-				rasterizarLinha(pMin, pMax);
-				yMin += 1;
-				yMax += 1;
-				xMin = equacaoReta(yMin, pComum, p1);
-				xMax = equacaoReta(yMax, pComum, p2);
-			}
+			
 		}
 	}
 	
@@ -238,10 +178,6 @@ public class Drawner {
         }
     }
 	
-	private static double equacaoReta(double y, Ponto p0, Ponto p1) {
-		double declive = (p1.getX()-p0.getX())/(p1.getY()-p0.getY());
-		return declive*(y-p0.getY()) + p0.getX();
-	}
 	
 	public static void main(String[] args) throws NegocioException {
 		Triangulo t = new Triangulo(new Ponto(0, 3, 0),

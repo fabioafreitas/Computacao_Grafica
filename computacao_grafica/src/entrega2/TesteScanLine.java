@@ -41,49 +41,78 @@ public class TesteScanLine extends Application{
             }
         }                                
     }
+    
+    public static void rasterizarTrianguloCima(Triangulo t, GraphicsContext graphic) throws InterruptedException {
+    	Ponto[] list = t.getPontos();
+    	for (int i = 0; i < list.length; i++) {
+			for (int j = i+1; j < list.length; j++) {
+				if(list[j].getY() < list[i].getY()) {
+					Ponto aux = list[j];
+					list[j] = list[i];
+					list[i] = aux;
+				}
+			}
+		}
+    	
+    	Ponto top = list[0];
+    	Ponto dir = list[1];
+    	Ponto esq = list[2];
+    	
+//    	top.setX( (int) top.getX() );
+//    	top.setY( (int) top.getY() );
+//    	dir.setX( (int) dir.getX() );
+//    	dir.setY( (int) dir.getY() );
+//    	esq.setX( (int) esq.getX() );
+//    	esq.setY( (int) esq.getY() );
+    	 
+    	int topx = (int) top.getX();
+    	int topy = (int) top.getY();
+    	
+    	int dirx = (int) dir.getX();
+    	int diry = (int) dir.getY();
+    	
+    	int esqx = (int) esq.getX();
+    	int esqy = (int) esq.getY();
+    	
+    	
+    	int minx = topx;
+    	int miny = topy;
+    	
+    	int maxx = topx;
+    	int maxy = topy;
+    	while((minx != dirx) && (miny != diry)) {
+    		Ponto min = new Ponto(minx, miny, 0);
+    		Ponto max = new Ponto(maxx, maxy, 0);
+    		rasterizarLinha(min, max, graphic);
+    		miny++;
+    		maxy++;
+    		minx = equacaoReta(miny, top, esq);
+    		maxx = equacaoReta(maxy, top, dir);
+    	}
+
+    }
+    
+    public static int equacaoReta(int y, Ponto pa, Ponto pb) {
+    	double a = pb.getX() - pa.getX();
+    	double b = pb.getY() - pa.getY();
+    	double c = y - pa.getY();
+    	return (int) ((a/b)*c + pa.getX());
+    }
 	
-    // por que este código não funciona e
-//	public static void rasterizarLinha(Ponto p1, Ponto p0, GraphicsContext graphic) {
-//		graphic.setFill(Color.WHITE);
-//		if(p0.equals(p1))
-//			graphic.fillRect(p0.getX(), p0.getY(), 1, 1);
-//
-//		double deltax =  p1.getX() - p0.getX();			
-//		double deltay =  p1.getY() - p0.getY();
-//		double erro = 0;
-//		double declive = Math.abs(deltay/deltax);
-//		int y = (int) p0.getY();
-//		for(int x = (int) p0.getX(); x < p1.getX() ; x++) {
-//			graphic.fillRect(x, y, 1, 1);
-//			erro += declive;
-//			if(erro >= 0.5) {
-//				y += 1;
-//				erro -= 1;
-//			}
-//		}
-//	}
-//	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		//ADICIONE O NOME DO ARQUIVO
-		String fileName = "calice2"; 
 		int width = 600; 
 		int height = 600;
-		Forma objeto = new Forma(fileName);
-		objeto.normalizarProjecaoOrtogonal(width, height);
 		Canvas canvas = new Canvas(width, height);
 		GraphicsContext graphic = canvas.getGraphicsContext2D();
 		graphic = canvas.getGraphicsContext2D();
 		graphic.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		graphic.setFill(Color.WHITE);
-//		for (Ponto ponto : objeto.getVertices()) {
-//			graphic.fillRect(ponto.getX(),ponto.getY(), 1, 1);
-//		}
-		Ponto p0 = new Ponto(100, 100, 1);
-		Ponto p1 = new Ponto(200, 250, 1);
-		Ponto p2 = new Ponto(400, 400, 1);
-		
-		Drawner.rasterizarTriangulo(new Triangulo(p0, p1, p2));
+
+		Ponto ptop = new Ponto(300, 100, 1);
+		Ponto pdir = new Ponto(250, 150, 1);
+		Ponto pesq = new Ponto(350, 150, 1);
+		rasterizarTrianguloCima(new Triangulo(ptop, pdir, pesq), graphic);
 		
 		Group group = new Group(canvas);
 		Scene scene = new Scene(group);
