@@ -8,9 +8,6 @@ import negocio.exception.EntradaInvalidaException;
 import negocio.exception.FormatoInvalidoException;
 import negocio.exception.NegocioException;
 
-/*
- * checar se a base já está ortonormal
- */
 public class CameraVirtual {
 	private Ponto pontoC; // foco
 	private Vetor vetorU, vetorV, vetorN; // Base do Espaço Vetorial

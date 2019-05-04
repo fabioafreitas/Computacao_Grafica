@@ -1,9 +1,4 @@
-package negocio;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.junit.rules.Verifier;
+package test;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -12,91 +7,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import negocio.beans.CameraVirtual;
-import negocio.beans.Forma;
+import negocio.Drawner;
 import negocio.beans.Ponto;
 import negocio.beans.Triangulo;
 import negocio.exception.NegocioException;
 import negocio.exception.RasterizacaoException;
 
-public class Drawner{ 	
-	/**
-	 * Método da questão dois da primeira entrega
-	 * @param width
-	 * @param height
-	 * @param fileName
-	 * @return Cena pronta para ser exibida
-	 * @throws IOException
-	 * @throws NumberFormatException
-	 * @throws NegocioException
-	 */
-	public static Scene desenharProjecaoOrtogonal(int width, int height, String fileName) 
-			throws IOException, NumberFormatException, NegocioException {
-		int margin = 20;
-		Forma form = new Forma(fileName);
-		form.normalizarProjecaoOrtogonal(width, height);
-		
-		Canvas canvas = new Canvas(width, height);
-		canvas.setTranslateX(margin/2);
-		canvas.setTranslateY(margin/2);
-		
-		GraphicsContext graphic = canvas.getGraphicsContext2D();
-		graphic = canvas.getGraphicsContext2D();
-		ArrayList<Ponto> pontos = form.getVertices();
-		
-		//Pintando todo o CANVAS de preto (Cor default do GraphicsContext é Preto)
-		graphic.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		
-		// Pintando a forma no canvas
-		for (int i = 0; i < pontos.size() ; i++) {
-			graphic.setFill(Color.WHITE);
-			graphic.fillRect(pontos.get(i).getX() - 1 ,
-							 pontos.get(i).getY() - 1 , 1, 1);
-		}
-		
-		Group group = new Group(canvas);
-		return new Scene(group, width+margin, height+margin);
-	}
-
-	/**
-	 * Metodo da segunda entrega
-	 * @param canvas
-	 * @param camera
-	 * @param objeto
-	 * @throws NegocioException 
-	 */
-	public static void projecaoPerspectiva(Canvas canvas, CameraVirtual camera, Forma objeto) throws NegocioException {
-		GraphicsContext graphic = canvas.getGraphicsContext2D();
-		graphic = canvas.getGraphicsContext2D();
-		graphic.setFill(Color.WHITE);
-		int width  = (int) canvas.getWidth(); 
-		int height = (int) canvas.getHeight();
-		
-		ArrayList<Ponto> vertices = objeto.getVertices();
-		ArrayList<int[]> indexTriangulos = objeto.getIndiceTriangulos();
-		
-		// Transformações dos pontos do objeto para coordenadas de tela
-		Ponto ponto = null;
-		for (int i = 0; i < vertices.size(); i++) {
-			ponto = Algebra.getCoordenadasVista(vertices.get(i), camera);
-			ponto = Algebra.getProjecaoPerspectiva(ponto, camera);
-			ponto = Algebra.getPerspectivaNormalizada(ponto, camera);
-			ponto = Algebra.getCoordenadaTela(ponto, width, height);
-			vertices.get(i).setX(ponto.getX());
-			vertices.get(i).setY(ponto.getY());
-			vertices.get(i).setZ(ponto.getZ());
-			//graphic.fillRect(ponto.getX(), ponto.getY(), 1, 1);
-		}
-		
-		// Rasterizando os triangulos do objeto
-		for (int[] index : indexTriangulos) {
-			Ponto p1 = vertices.get(index[0]);
-			Ponto p2 = vertices.get(index[1]);
-			Ponto p3 = vertices.get(index[2]);
-			scanLine(p1, p2, p3, graphic);
-		}
-	}
-	
+public class TesteScanLine extends Application{
 	public static void scanLine(Ponto p1, Ponto p2, Ponto p3, GraphicsContext pincel) {
 		pincel.setFill(Color.WHITE);
 		if( (p1.getY() == p2.getY()) && (p2.getY() == p3.getY())) {
@@ -185,4 +102,80 @@ public class Drawner{
 		}
     	return list;
     }
+    
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		int width = 600; 
+		int height = 600;
+		Canvas canvas = new Canvas(width, height);
+		GraphicsContext graphic = canvas.getGraphicsContext2D();
+		graphic = canvas.getGraphicsContext2D();
+		graphic.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		graphic.setFill(Color.WHITE);
+
+		Ponto p1, p2, p3;		
+		p1 = new Ponto(34, 201, 1);
+		p2 = new Ponto(234, 588, 1);
+		p3 = new Ponto(500, 123, 1);
+		
+//		p1 = new Ponto(400, 100, 1);
+//		p2 = new Ponto(200, 300, 1);
+//		p3 = new Ponto(300, 450, 1);
+//		
+//		p1 = new Ponto(50, 50, 1);
+//		p2 = new Ponto(50, 100, 1);
+//		p3 = new Ponto(50, 150, 1);
+//
+//		p1 = new Ponto(100, 50, 1);
+//		p2 = new Ponto(50, 200, 1);
+//		p3 = new Ponto(150, 200, 1);
+//		
+//		p1 = new Ponto(50, 50, 1);
+//		p2 = new Ponto(100, 50, 1);
+//		p3 = new Ponto(300, 400, 1);
+//		
+//		p1 = new Ponto(10, 10, 1);
+//		p2 = new Ponto(10, 10, 1);
+//		p3 = new Ponto(10, 10, 1);
+//		
+//		p1 = new Ponto(10, 10, 1);
+//		p2 = new Ponto(50, 10, 1);
+//		p3 = new Ponto(100, 10, 1);
+//		
+//		p1 = new Ponto(10, 10, 1);
+//		p2 = new Ponto(50, 50, 1);
+//		p3 = new Ponto(100, 100, 1);
+//		
+//		p1 = new Ponto(100, 0, 1);
+//		p2 = new Ponto(50, 50, 1);
+//		p3 = new Ponto(0, 100, 1);
+//		
+//		p1 = new Ponto(100, 100, 1);
+//		p2 = new Ponto(105, 200, 1);
+//		p3 = new Ponto(110, 300, 1);
+//		
+//		p1 = new Ponto(110, 100, 1);
+//		p2 = new Ponto(105, 200, 1);
+//		p3 = new Ponto(100, 300, 1);
+//		
+//		p1 = new Ponto(10, 300, 1);
+//		p2 = new Ponto(20, 300, 1);
+//		p3 = new Ponto(590, 300, 1);
+		
+		scanLine(p1, p2, p3, graphic);
+		scanLine(p1, p3, p2, graphic);
+		scanLine(p2, p3, p1, graphic);
+		scanLine(p2, p1, p3, graphic);
+		scanLine(p3, p1, p2, graphic);
+		scanLine(p3, p2, p1, graphic);
+
+		Group group = new Group(canvas);
+		Scene scene = new Scene(group);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 }

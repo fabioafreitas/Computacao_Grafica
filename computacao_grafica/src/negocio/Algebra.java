@@ -104,7 +104,5 @@ public class Algebra {
 		int xp3 = (int) p3.getX();
 		int yp3 = (int) p3.getY();
 		return 0 == (xp1*yp2 + yp1*xp3 + xp2*yp3 )-( xp3*yp2 + yp3*xp1 + xp2*yp1);
-//		return 0 == ( p1.getX()*p2.getY() + p1.getY()*p3.getX() + p2.getX()*p3.getY())
-//					-(p3.getX()*p2.getY() + p3.getY()*p1.getX() + p2.getX()*p1.getY());
 	}
 }
