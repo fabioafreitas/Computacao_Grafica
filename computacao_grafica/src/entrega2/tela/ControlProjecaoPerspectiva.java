@@ -22,7 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 import negocio.Drawner;
 import negocio.beans.CameraVirtual;
-import negocio.beans.Forma;
+import negocio.beans.Objeto;
 import negocio.exception.NegocioException;
 
 
@@ -32,7 +32,7 @@ public class ControlProjecaoPerspectiva implements Initializable{
 	private List<String> objetoFiles;
 	private GraphicsContext graphic;
 	private CameraVirtual camera;
-	private Forma objeto;
+	private Objeto objeto;
 	
     @FXML
     private Canvas canvas;
@@ -54,7 +54,7 @@ public class ControlProjecaoPerspectiva implements Initializable{
     	String fileObjeto = cbox_objeto.getSelectionModel().getSelectedItem();
     	
     	camera = new CameraVirtual(fileCamera);
-    	objeto = new Forma(fileObjeto);
+    	objeto = new Objeto(fileObjeto);
     	
     	
     	Drawner.projecaoPerspectiva(canvas, camera, objeto);

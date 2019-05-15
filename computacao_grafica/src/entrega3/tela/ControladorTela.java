@@ -14,54 +14,78 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import negocio.beans.CameraVirtual;
-import negocio.beans.Forma;
+import negocio.beans.Objeto;
 
 public class ControladorTela implements Initializable {
 	private ObservableList<String> obsList;
 	private List<String> objetoFiles;
 	private GraphicsContext graphic;
 	private CameraVirtual camera;
-	private Forma objeto;
+	private Objeto objeto;
 	
-    @FXML
+	@FXML
     private Canvas canvas;
 
     @FXML
-    private ComboBox<String> comboBoxObjeto;
+    private ComboBox<String> cb_objeto;
 
     @FXML
-    private Accordion accordion;
+    private Button btn_renderizar;
 
     @FXML
-    private TitledPane titlePaneCamera;
+    private TextField tf_pontoc;
 
     @FXML
-    private TitledPane titlePaneRotacao;
+    private TextField tf_vetorn;
 
     @FXML
-    private TitledPane titlePaneReflexao;
+    private TextField tf_vetorv;
 
     @FXML
-    private TitledPane titlePaneCisalhamento;
+    private TextField tf_d;
 
     @FXML
-    private TitledPane titlePaneEscala;
+    private TextField tf_hx;
 
     @FXML
-    private TitledPane titlePaneTranslacao;
-	
-    @FXML
-    private Button buttonRenderizar;
+    private TextField tf_hy;
 
+    @FXML
+    private TextField tf_lamb;
+
+    @FXML
+    private TextField tf_li;
+
+    @FXML
+    private TextField tf_ka;
+
+    @FXML
+    private TextField tf_ks;
+
+    @FXML
+    private TextField tf_n;
+
+    @FXML
+    private TextField tf_vetorkd;
+
+    @FXML
+    private TextField tf_vetorod;
+
+    @FXML
+    private TextField tf_pontopl;
+
+
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		graphic = canvas.getGraphicsContext2D();
 		this.carregarComboBoxObjeto();
-
+		this.pintarCanvasPreto();
 	}
 	
 	@FXML
@@ -84,6 +108,11 @@ public class ControladorTela implements Initializable {
 		Collections.sort(objetoFiles);
 		
 		obsList = FXCollections.observableArrayList(objetoFiles);
-		comboBoxObjeto.setItems(obsList);
+		cb_objeto.setItems(obsList);
+	}
+	
+	public void pintarCanvasPreto() {
+		graphic.setFill(Color.BLACK);
+		graphic.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	}
 }

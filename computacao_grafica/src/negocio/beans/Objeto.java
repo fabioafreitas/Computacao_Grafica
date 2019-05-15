@@ -9,12 +9,12 @@ import negocio.exception.EntradaInvalidaException;
 import negocio.exception.FormatoInvalidoException;
 import negocio.exception.NegocioException;
 
-public class Forma {
+public class Objeto {
 	private ArrayList<Ponto> vertices;
 	private ArrayList<int[]> indicesTriangulos;
 	private BufferedReader reader;
 	
-	public Forma(String fileName) throws IOException, NegocioException {
+	public Objeto(String fileName) throws IOException, NegocioException {
 		String separator = System.getProperty("file.separator");
 		String path = "Formas"+separator+fileName+".byu";
 		reader = new BufferedReader(new FileReader(path));

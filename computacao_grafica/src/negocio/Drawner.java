@@ -13,7 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import negocio.beans.CameraVirtual;
-import negocio.beans.Forma;
+import negocio.beans.Objeto;
 import negocio.beans.Ponto;
 import negocio.beans.Triangulo;
 import negocio.exception.NegocioException;
@@ -33,7 +33,7 @@ public class Drawner{
 	public static Scene desenharProjecaoOrtogonal(int width, int height, String fileName) 
 			throws IOException, NumberFormatException, NegocioException {
 		int margin = 20;
-		Forma form = new Forma(fileName);
+		Objeto form = new Objeto(fileName);
 		form.normalizarProjecaoOrtogonal(width, height);
 		
 		Canvas canvas = new Canvas(width, height);
@@ -65,7 +65,7 @@ public class Drawner{
 	 * @param objeto
 	 * @throws NegocioException 
 	 */
-	public static void projecaoPerspectiva(Canvas canvas, CameraVirtual camera, Forma objeto) throws NegocioException {
+	public static void projecaoPerspectiva(Canvas canvas, CameraVirtual camera, Objeto objeto) throws NegocioException {
 		GraphicsContext graphic = canvas.getGraphicsContext2D();
 		graphic = canvas.getGraphicsContext2D();
 		graphic.setFill(Color.WHITE);
