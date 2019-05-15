@@ -91,20 +91,33 @@ public class PrimeiraQuestao {
 	
 	
 	public static void main(String[] args) {
-		a();
-		System.out.println("\n");
-		b();
-		System.out.println("\n");
-		c();
-		System.out.println("\n");
-		d();
-		System.out.println("\n");
-		e();
-		System.out.println("\n");
-		f();
-		System.out.println("\n");
-		g();
-		System.out.println("\n");
-		h();
+//		a();
+//		System.out.println("\n");
+//		b();
+//		System.out.println("\n");
+//		c();
+//		System.out.println("\n");
+//		d();
+//		System.out.println("\n");
+//		e();
+//		System.out.println("\n");
+//		f();
+//		System.out.println("\n");
+//		g();
+//		System.out.println("\n");
+//		h();
+		
+		Vetor u = new Vetor(Math.sqrt(2)/2, 0, Math.sqrt(2)/2);
+		Vetor v = new Vetor(Math.sqrt(2)/2, 0, -Math.sqrt(2)/2);
+		Vetor n = new Vetor(0, -1, 0);
+		
+		System.out.println("u = "+u);
+		System.out.println("v = "+v);
+		System.out.println("n = "+n);
+		System.out.println();
+		System.out.println("u = "+n.produtoVetorial(v));
+		System.out.println("n = "+v.produtoVetorial(u));
+		System.out.println("v = "+u.produtoVetorial(n));
+		
 	}
 }
