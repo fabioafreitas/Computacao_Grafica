@@ -20,10 +20,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
-import negocio.Drawner;
-import negocio.beans.CameraVirtual;
-import negocio.beans.Objeto;
-import negocio.exception.NegocioException;
+import ufrpe.negocio.Drawner;
+import ufrpe.negocio.beans.CameraVirtual;
+import ufrpe.negocio.beans.Objeto;
+import ufrpe.negocio.exception.NegocioException;
 
 
 public class ControlProjecaoPerspectiva implements Initializable{
