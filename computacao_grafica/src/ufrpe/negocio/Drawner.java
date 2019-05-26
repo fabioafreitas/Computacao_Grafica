@@ -27,7 +27,6 @@ public class Drawner{
 	private static Iluminacao iluminacao;
 	private static int width; 
 	private static int height;
-	
 	/**
 	 * Função principal, que fará todo o algoritmo de renderização
 	 * @param canvas
@@ -62,9 +61,6 @@ public class Drawner{
 		for (int i = 0; i < indexTriangulos.size(); i++) {
 			triangulos.add(new Triangulo());
 			int[] index = indexTriangulos.get(i);
-			triangulos.get(i).pMundial1 = verticesMundiais.get(index[0]);
-			triangulos.get(i).pMundial2 = verticesMundiais.get(index[1]);
-			triangulos.get(i).pMundial3 = verticesMundiais.get(index[2]);
 			triangulos.get(i).pVista1 = verticesVista.get(index[0]);
 			triangulos.get(i).pVista2 = verticesVista.get(index[1]);
 			triangulos.get(i).pVista3 = verticesVista.get(index[2]);
@@ -112,7 +108,7 @@ public class Drawner{
 			int xMaxTela = (int) Math.floor(list[2].getX()+0.5);
 			int yTela = (int) list[1].getY();
 			while(xMinTela <= xMaxTela) {
-				Ponto ponto = new Ponto(xMaxTela, yTela, 0);
+				Ponto ponto = new Ponto(xMinTela, yTela, 0);
 				zBufferAlgoritmo(ponto, triangulo);
 				xMinTela++;
 			}
@@ -139,7 +135,7 @@ public class Drawner{
 			int xMinTela = (int) Math.floor(xMin+0.5);
 			int xMaxTela = (int) Math.floor(xMax+0.5);
 			while(xMinTela <= xMaxTela) {
-				Ponto ponto = new Ponto(xMaxTela, yTela, 0);
+				Ponto ponto = new Ponto(xMinTela, yTela, 0);
 				zBufferAlgoritmo(ponto, triangulo);
 				xMinTela++;
 			}
@@ -156,7 +152,7 @@ public class Drawner{
 			int xMinTela = (int) Math.floor(xMin+0.5);
 			int xMaxTela = (int) Math.floor(xMax+0.5);
 			while(xMinTela <= xMaxTela) {
-				Ponto ponto = new Ponto(xMaxTela, yTela, 0);
+				Ponto ponto = new Ponto(xMinTela, yTela, 0);
 				zBufferAlgoritmo(ponto, triangulo);
 				xMinTela++;
 			}
@@ -230,7 +226,8 @@ public class Drawner{
     private static void zBufferAlgoritmo(Ponto ponto, Triangulo triangulo) throws NegocioException {
     	int x = (int) ponto.getX();
     	int y = (int) ponto.getY();
-    	if(x >= 0 && x < width && y >= 0 && y < height) {
+
+    	if(x >= 0 && x < width-1 && y >= 0 && y < height-1) {
     		Ponto p1 = triangulo.pVista1;
     		Ponto p2 = triangulo.pVista2;
     		Ponto p3 = triangulo.pVista3;
@@ -243,6 +240,7 @@ public class Drawner{
     			Vetor v = calcularVetorV(ponto);
     			Vetor r = calcularVetorR(n, l);
     			Cor cor = iluminacaoPhong(n, l, v, r);
+    			
     			depthBuffer[x][y].setColor(Color.rgb((int) cor.red,
 							    					 (int) cor.green,
 							    					 (int) cor.blue));
@@ -338,8 +336,7 @@ public class Drawner{
 		Cor il = iluminacao.getLuzL();
 		
 		double escalar = v.produtoEscalar3D(r);
-		escalar = Math.pow(escalar, eta);
-		escalar = escalar*ks;
+		escalar = Math.pow(escalar, eta)*ks;
 		
 		return new Cor(il.red * escalar,
 					   il.green * escalar,
@@ -352,8 +349,8 @@ public class Drawner{
 		double gama = baricentrica.getZ();
 		
 		Vetor v1 = triangulo.pVista1.getNormal();
-		Vetor v2 = triangulo.pVista1.getNormal();
-		Vetor v3 = triangulo.pVista1.getNormal();
+		Vetor v2 = triangulo.pVista2.getNormal();
+		Vetor v3 = triangulo.pVista3.getNormal();
 		
 		v1 = v1.multplicarEscalar(alfa);
 		v2 = v2.multplicarEscalar(beta);

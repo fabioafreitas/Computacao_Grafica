@@ -22,6 +22,9 @@ public class Cor {
 		this.red = this.red > 255 ? 255 : this.red;
     	this.green = this.green > 255 ? 255 : this.green;
     	this.blue = this.blue > 255 ? 255 : this.blue;
+    	this.red = this.red < 0 ? 0 : this.red;
+    	this.green = this.green < 0 ? 0 : this.green;
+    	this.blue = this.blue < 0 ? 0 : this.blue;
 	}
 
 	@Override

@@ -43,6 +43,7 @@ public class ControladorTela implements Initializable {
 	private Objeto objeto;
 	
 	@FXML private Canvas canvas;
+	@FXML private ComboBox<String> cb_camera;
     @FXML private ComboBox<String> cb_objeto;
     @FXML private Button btn_renderizar;
     @FXML private TextField tf_pontoc;
@@ -64,9 +65,10 @@ public class ControladorTela implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		pincel = canvas.getGraphicsContext2D();
 		this.carregarComboBoxObjeto();
+		this.carregarComboBoxCamera();
 		this.pintarCanvasPreto();
 		try {
-			this.lerArquivoCameraVirtual();
+			this.lerArquivoCameraVirtual("camera");
 			this.lerArquivoIluminacao();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -76,10 +78,16 @@ public class ControladorTela implements Initializable {
 	@FXML
     void ClickButtonRenderizar(ActionEvent event) throws IOException, NegocioException {
 		String fileObjeto = cb_objeto.getSelectionModel().getSelectedItem();
+		String fileCamera = cb_camera.getSelectionModel().getSelectedItem();
 		if(fileObjeto != null) {
 			this.escreverArquivoCameraVirtual();
 			this.escreverArquivoIluminacao();
-			this.lerArquivoCameraVirtual();
+			if(fileCamera == null) {
+				this.lerArquivoCameraVirtual("camera");
+			} else {
+				this.lerArquivoCameraVirtual(fileCamera);
+				cb_camera.setValue(null);
+			}
 			this.lerArquivoIluminacao();
 			this.objeto = new Objeto(fileObjeto);
 			Drawner.renderizar(canvas, camera, objeto, iluminacao);
@@ -104,14 +112,32 @@ public class ControladorTela implements Initializable {
 		cb_objeto.setItems(obsList);
 	}
 	
+	private void carregarComboBoxCamera() {
+		objetoFiles = new ArrayList<String>();
+
+		File[] files = new File("CameraVirtual").listFiles();
+		for (File file : files) {
+		    if (file.isFile()) {
+		    	String fileName = file.getName();
+		    	if (fileName.indexOf(".") > 0)
+		            fileName = fileName.substring(0, fileName.lastIndexOf("."));
+		    	objetoFiles.add(fileName);
+		    }
+		}
+		Collections.sort(objetoFiles);
+		
+		obsList = FXCollections.observableArrayList(objetoFiles);
+		cb_camera.setItems(obsList);
+	}
+	
 	private void pintarCanvasPreto() {
 		pincel.setFill(Color.BLACK);
 		pincel.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	}
 	
-	private void lerArquivoCameraVirtual() throws IOException {
+	private void lerArquivoCameraVirtual(String fileName) throws IOException {
 		String separator = System.getProperty("file.separator");
-		String path = "CameraVirtual"+separator+"camera.txt";
+		String path = "CameraVirtual"+separator+fileName+".txt";
 		reader = new BufferedReader(new FileReader(path));
 		
 		String line = reader.readLine();
@@ -203,8 +229,8 @@ public class ControladorTela implements Initializable {
 							Double.parseDouble(split[1]), 
 							Double.parseDouble(split[2]));
 		
-		kd = kd.normalizar();
-		od = od.normalizar();
+//		kd = kd.normalizar(); //TODO
+//		od = od.normalizar();
 		iluminacao = new Iluminacao(luzAmb, luzL, ka, ks, eta, kd, od, pl);
 		reader.close();
 	}
