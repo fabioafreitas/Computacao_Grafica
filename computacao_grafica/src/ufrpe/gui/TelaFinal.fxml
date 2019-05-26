@@ -133,7 +133,7 @@
             </HBox>
             <HBox layoutX="21.0" layoutY="62.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="250.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="75.0" text="Escalar n" />
+                  <Label prefHeight="26.0" prefWidth="75.0" text="Escalar eta" />
                   <TextField fx:id="tf_n" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />

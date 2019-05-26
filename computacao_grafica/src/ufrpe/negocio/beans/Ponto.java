@@ -2,6 +2,7 @@ package ufrpe.negocio.beans;
 
 public class Ponto {
 	private double x,y,z;
+	private Vetor normal;
 	
 	public Ponto(double x,double y,double z) {
 		this.x = x;
@@ -44,6 +45,14 @@ public class Ponto {
 
 	public void setZ(double z) {
 		this.z = z;
+	}
+	
+	public Vetor getNormal() {
+		return normal;
+	}
+
+	public void setNormal(Vetor normal) {
+		this.normal = normal;
 	}
 
 	public boolean equals(Ponto p) {

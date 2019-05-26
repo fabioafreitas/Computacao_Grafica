@@ -12,7 +12,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		String sep = System.getProperty("file.separator");
 		Pane root = FXMLLoader.load(getClass().getResource("gui"+sep+"TelaFinal.fxml"));
-		primaryStage.setTitle("ComputaÃ§Ã£o GrÃ¡fica - 3Âª Entrega");
+		primaryStage.setTitle("Computação Gráfica - 3ª Entrega");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 	}

@@ -1,6 +1,7 @@
 package ufrpe.gui;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,79 +19,53 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import ufrpe.negocio.Drawner;
 import ufrpe.negocio.beans.CameraVirtual;
+import ufrpe.negocio.beans.Iluminacao;
 import ufrpe.negocio.beans.Objeto;
+import ufrpe.negocio.exception.NegocioException;
 
 public class ControladorTela implements Initializable {
 	private ObservableList<String> obsList;
 	private List<String> objetoFiles;
 	private GraphicsContext graphic;
+	private Iluminacao iluminacao;
 	private CameraVirtual camera;
 	private Objeto objeto;
 	
-	@FXML
-    private Canvas canvas;
-
-    @FXML
-    private ComboBox<String> cb_objeto;
-
-    @FXML
-    private Button btn_renderizar;
-
-    @FXML
-    private TextField tf_pontoc;
-
-    @FXML
-    private TextField tf_vetorn;
-
-    @FXML
-    private TextField tf_vetorv;
-
-    @FXML
-    private TextField tf_d;
-
-    @FXML
-    private TextField tf_hx;
-
-    @FXML
-    private TextField tf_hy;
-
-    @FXML
-    private TextField tf_lamb;
-
-    @FXML
-    private TextField tf_li;
-
-    @FXML
-    private TextField tf_ka;
-
-    @FXML
-    private TextField tf_ks;
-
-    @FXML
-    private TextField tf_n;
-
-    @FXML
-    private TextField tf_vetorkd;
-
-    @FXML
-    private TextField tf_vetorod;
-
-    @FXML
-    private TextField tf_pontopl;
-
-
+	
+	@FXML private Canvas canvas;
+    @FXML private ComboBox<String> cb_objeto;
+    @FXML private Button btn_renderizar;
+    @FXML private TextField tf_pontoc;
+    @FXML private TextField tf_vetorn;
+    @FXML private TextField tf_vetorv;
+    @FXML private TextField tf_d;
+    @FXML private TextField tf_hx;
+    @FXML private TextField tf_hy;
+    @FXML private TextField tf_lamb;
+    @FXML private TextField tf_li;
+    @FXML private TextField tf_ka;
+    @FXML private TextField tf_ks;
+    @FXML private TextField tf_n;
+    @FXML private TextField tf_vetorkd;
+    @FXML private TextField tf_vetorod;
+    @FXML private TextField tf_pontopl;
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		graphic = canvas.getGraphicsContext2D();
+		
 		this.carregarComboBoxObjeto();
 		this.pintarCanvasPreto();
 	}
 	
 	@FXML
-    void ClickButtonRenderizar(ActionEvent event) {
-
+    void ClickButtonRenderizar(ActionEvent event) throws IOException, NegocioException {
+		this.objeto = new Objeto("cow");
+		this.camera = new CameraVirtual("camera");
+		this.iluminacao = new Iluminacao("iluminacao");
+		Drawner.renderizar(canvas, camera, objeto, iluminacao);
     }
 	
 	public void carregarComboBoxObjeto() {
