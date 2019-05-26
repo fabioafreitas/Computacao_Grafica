@@ -96,8 +96,8 @@ public class Drawner{
 		
 		for (Triangulo triangulo : triangulos) {
 			scanLine(triangulo);
-		}	
-
+		}
+		
 		pintarCanvas();
 	}
 	
@@ -248,9 +248,7 @@ public class Drawner{
 							    					 (int) cor.blue));
     			depthBuffer[x][y].setDepth(pontoEstimado.getZ());
     		}
-    		
     	}
-    	
     }
     
     /**
@@ -296,8 +294,8 @@ public class Drawner{
 				espectral = new Cor(0,0,0);
 				casoEspecial = true;
 			}
-			difusa = iluminacaoDifusa(n, l, v);
 		}
+    	difusa = iluminacaoDifusa(n, l, v);
     	
     	// caso especial espectral
     	if(!casoEspecial) {
@@ -316,15 +314,15 @@ public class Drawner{
     }
     
 	private static Cor iluminacaoAmbiental() {
-		double ka = iluminacao.ka;
-		Cor iamb = iluminacao.luzAmb;
+		double ka = iluminacao.getKa();
+		Cor iamb = iluminacao.getLuzAmb();
 	    return new Cor(ka*(iamb.red), ka*(iamb.green), ka*(iamb.blue));
     }
 
 	private static Cor iluminacaoDifusa(Vetor n, Vetor l, Vetor v) {
-		Vetor kd = iluminacao.kd;
-		Vetor od = iluminacao.od;
-		Cor il = iluminacao.luzL;
+		Vetor kd = iluminacao.getKd();
+		Vetor od = iluminacao.getOd();
+		Cor il = iluminacao.getLuzL();
 		
 		double escalar = n.produtoEscalar3D(l);
 		Vetor vetor = kd.multplicarEscalar(escalar);
@@ -335,9 +333,9 @@ public class Drawner{
 	}
 	
 	private static Cor iluminacaoEspectral(Vetor v, Vetor r) {
-		double eta = iluminacao.eta;
-		double ks = iluminacao.ks;
-		Cor il = iluminacao.luzL;
+		double eta = iluminacao.getEta();
+		double ks = iluminacao.getKs();
+		Cor il = iluminacao.getLuzL();
 		
 		double escalar = v.produtoEscalar3D(r);
 		escalar = Math.pow(escalar, eta);
@@ -366,7 +364,7 @@ public class Drawner{
 	}
 
 	private static Vetor calcularVetorL(Ponto ponto) {
-		Vetor l = (iluminacao.pl).subtrair(ponto);
+		Vetor l = (iluminacao.getPl()).subtrair(ponto);
 		return l.normalizar();
 	}
 	

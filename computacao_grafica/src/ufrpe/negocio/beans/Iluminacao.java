@@ -5,10 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Iluminacao {
-	public Cor luzAmb, luzL;
-	public double ka, ks, eta;
-	public Vetor kd, od;
-	public Ponto pl;
+	private Cor luzAmb, luzL;
+	private double ka, ks, eta;
+	private Vetor kd, od;
+	private Ponto pl;
 	private BufferedReader reader;
 	 
 	public Iluminacao(String fileName) throws IOException {
@@ -57,6 +57,65 @@ public class Iluminacao {
 		
 		//kd = kd.normalizar();
 		//od = od.normalizar();
+		reader.close();
 	}
+	
+	public Iluminacao(Cor luzAmb, Cor luzL, double ka, double ks, double eta, Vetor kd, Vetor od, Ponto pl) {
+		super();
+		this.luzAmb = luzAmb;
+		this.luzL = luzL;
+		this.ka = ka;
+		this.ks = ks;
+		this.eta = eta;
+		this.kd = kd;
+		this.od = od;
+		this.pl = pl;
+	}
+
+
+
+	public Cor getLuzAmb() {
+		return luzAmb;
+	}
+
+	public Cor getLuzL() {
+		return luzL;
+	}
+
+	public double getKa() {
+		return ka;
+	}
+
+	public double getKs() {
+		return ks;
+	}
+
+	public double getEta() {
+		return eta;
+	}
+
+	public Vetor getKd() {
+		return kd;
+	}
+
+	public Vetor getOd() {
+		return od;
+	}
+
+	public Ponto getPl() {
+		return pl;
+	}
+
+	public BufferedReader getReader() {
+		return reader;
+	}
+
+	@Override
+	public String toString() {
+		return "Iluminacao [luzAmb=" + luzAmb + ", luzL=" + luzL + ", ka=" + ka + ", ks=" + ks + ", eta=" + eta
+				+ ", kd=" + kd + ", od=" + od + ", pl=" + pl + ", reader=" + reader + "]";
+	}
+	
+	
 }
 

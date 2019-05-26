@@ -74,6 +74,17 @@ public class CameraVirtual {
 		this.normalizarBase();
 		reader.close();
 	}
+	
+	public CameraVirtual(Ponto pontoC, Vetor vetorN, Vetor vetorV, double d, double hx, double hy) {
+		this.pontoC = pontoC;
+		this.vetorV = vetorV;
+		this.vetorN = vetorN;
+		this.d = d;
+		this.hx = hx;
+		this.hy = hy;
+		this.ortogonalizarBase();
+		this.normalizarBase();
+	}
 
 	public Ponto getPontoC() {
 		return this.pontoC;

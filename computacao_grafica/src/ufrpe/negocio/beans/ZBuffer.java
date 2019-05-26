@@ -27,4 +27,11 @@ public class ZBuffer {
 	public void setDepth(double depth) {
 		this.depth = depth;
 	}
+
+	@Override
+	public String toString() {
+		return "ZBuffer [color=" + color + ", depth=" + depth + "]";
+	}
+	
+	
 }
