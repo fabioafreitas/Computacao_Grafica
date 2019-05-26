@@ -12,14 +12,15 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ufrpe.gui.ControladorTela">
    <children>
-      <Canvas fx:id="canvas" height="650.0" layoutX="443.0" layoutY="168.0" width="650.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <ComboBox fx:id="cb_objeto" layoutX="425.0" layoutY="56.0" prefWidth="150.0" promptText="Objeto" AnchorPane.rightAnchor="462.0" AnchorPane.topAnchor="50.0" />
-      <Button fx:id="btn_renderizar" layoutX="702.0" layoutY="43.0" mnemonicParsing="false" onAction="#ClickButtonRenderizar" prefWidth="150.0" text="Renderizar" AnchorPane.rightAnchor="137.0" AnchorPane.topAnchor="50.0" />
+      <Canvas fx:id="canvas" height="650.0" layoutX="443.0" layoutY="168.0" width="650.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="299.6" AnchorPane.rightAnchor="50.0" />
+      <ComboBox fx:id="cb_camera" prefWidth="150.0" promptText="Câmera Virtual" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="50.0" />
+      <ComboBox fx:id="cb_objeto" layoutX="425.0" layoutY="56.0" prefWidth="150.0" promptText="Objeto" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="50.0" />
+      <Button fx:id="btn_renderizar" layoutX="702.0" layoutY="43.0" mnemonicParsing="false" onAction="#ClickButtonRenderizar" prefWidth="150.0" text="Renderizar" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="50.0" />
   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label alignment="CENTER" layoutX="54.0" layoutY="14.0" prefHeight="26.0" prefWidth="111.0" text="Câmera Virtual" textAlignment="CENTER" AnchorPane.topAnchor="15.0">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
             </Label>
             <HBox layoutX="20.4" layoutY="183.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
@@ -35,7 +36,7 @@
             <HBox layoutX="30.4" layoutY="193.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
                <children>
                   <Label prefHeight="26.0" prefWidth="75.0" text="Vetor N" />
-                  <TextField fx:id="tf_vetorn" prefWidth="150.0">
+                  <TextField fx:id="tf_vetorn" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -45,7 +46,7 @@
             <HBox layoutX="30.4" layoutY="193.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
                <children>
                   <Label prefHeight="26.0" prefWidth="75.0" text="Vetor V" />
-                  <TextField fx:id="tf_vetorv" prefWidth="150.0">
+                  <TextField fx:id="tf_vetorv" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -55,7 +56,7 @@
             <HBox layoutX="40.4" layoutY="203.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
                <children>
                   <Label prefHeight="26.0" prefWidth="75.0" text="Escalar D" />
-                  <TextField fx:id="tf_d" prefWidth="150.0">
+                  <TextField fx:id="tf_d" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -65,7 +66,7 @@
             <HBox layoutX="40.4" layoutY="203.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="250.0">
                <children>
                   <Label prefHeight="26.0" prefWidth="75.0" text="Escalar Hx" />
-                  <TextField fx:id="tf_hx" prefWidth="150.0">
+                  <TextField fx:id="tf_hx" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -75,7 +76,7 @@
             <HBox layoutX="40.4" layoutY="203.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
                <children>
                   <Label prefHeight="26.0" prefWidth="75.0" text="Escalar Hy" />
-                  <TextField fx:id="tf_hy" prefWidth="150.0">
+                  <TextField fx:id="tf_hy" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -88,13 +89,13 @@
          <children>
             <Label alignment="CENTER" layoutX="58.0" layoutY="14.0" prefHeight="26.0" prefWidth="111.0" text="Iluminação" AnchorPane.topAnchor="15.0">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
             </Label>
             <HBox layoutX="11.0" layoutY="52.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="75.0" text="RGB Lamb" />
-                  <TextField fx:id="tf_lamb" alignment="CENTER" prefWidth="150.0">
+                  <Label prefHeight="26.0" prefWidth="75.0" text="RGB iamb" />
+                  <TextField fx:id="tf_iamb" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -103,8 +104,8 @@
             </HBox>
             <HBox layoutX="21.0" layoutY="62.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="75.0" text="RGB Li" />
-                  <TextField fx:id="tf_li" alignment="CENTER" prefWidth="150.0">
+                  <Label prefHeight="26.0" prefWidth="75.0" text="RGB il" />
+                  <TextField fx:id="tf_il" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -133,8 +134,8 @@
             </HBox>
             <HBox layoutX="21.0" layoutY="62.0" prefHeight="26.0" prefWidth="227.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="250.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="75.0" text="Escalar n" />
-                  <TextField fx:id="tf_n" alignment="CENTER" prefWidth="150.0">
+                  <Label prefHeight="26.0" prefWidth="75.0" text="Escalar eta" />
+                  <TextField fx:id="tf_eta" alignment="CENTER" prefWidth="150.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

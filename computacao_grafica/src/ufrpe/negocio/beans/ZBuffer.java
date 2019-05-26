@@ -3,21 +3,21 @@ package ufrpe.negocio.beans;
 import javafx.scene.paint.Color;
 
 public class ZBuffer {
-	private Color c;
+	private Color color;
 	private double depth;
 	
-	public ZBuffer(Color c, double depth) {
+	public ZBuffer(Color color, double depth) {
 		super();
-		this.c = c;
+		this.color = color;
 		this.depth = depth;
 	}
 	
 	public Color getColor() {
-		return c;
+		return color;
 	}
 	
-	public void setColor(Color c) {
-		this.c = c;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 	public double getDepth() {
@@ -27,4 +27,11 @@ public class ZBuffer {
 	public void setDepth(double depth) {
 		this.depth = depth;
 	}
+
+	@Override
+	public String toString() {
+		return "ZBuffer [color=" + color + ", depth=" + depth + "]";
+	}
+	
+	
 }

@@ -1,9 +1,9 @@
 package ufrpe.negocio.beans;
 
 public class Cor {
-	private double red;
-	private double green;
-	private double blue;
+	public double red;
+	public double green;
+	public double blue;
 	
 	public Cor(double red, double green, double blue) {
 		super();
@@ -11,28 +11,26 @@ public class Cor {
 		this.green = green;
 		this.blue = blue;
 	}
-
-	public double getRed() {
-		return red;
+	
+	public Cor somar(Cor cor) {
+		return new Cor( this.red+cor.red,
+						this.green+cor.green,
+						this.blue+cor.blue);
+	}
+	
+	public void verificarRGB() {
+		this.red = this.red > 255 ? 255 : this.red;
+    	this.green = this.green > 255 ? 255 : this.green;
+    	this.blue = this.blue > 255 ? 255 : this.blue;
+    	this.red = this.red < 0 ? 0 : this.red;
+    	this.green = this.green < 0 ? 0 : this.green;
+    	this.blue = this.blue < 0 ? 0 : this.blue;
 	}
 
-	public void setRed(double red) {
-		this.red = red;
+	@Override
+	public String toString() {
+		return "Cor [red=" + red + ", green=" + green + ", blue=" + blue + "]";
 	}
-
-	public double getGreen() {
-		return green;
-	}
-
-	public void setGreen(double green) {
-		this.green = green;
-	}
-
-	public double getBlue() {
-		return blue;
-	}
-
-	public void setBlue(double blue) {
-		this.blue = blue;
-	}
+	
+	
 }
