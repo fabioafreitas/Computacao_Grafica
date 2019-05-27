@@ -22,6 +22,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import ufrpe.negocio.Drawner;
 import ufrpe.negocio.beans.CameraVirtual;
@@ -77,6 +79,17 @@ public class ControladorTela implements Initializable {
 	
 	@FXML
     void ClickButtonRenderizar(ActionEvent event) throws IOException, NegocioException {
+		this.renderizar();
+    }
+	
+	@FXML
+    void KeyPressedRenderizar(KeyEvent event) throws IOException, NegocioException {
+		if(event.getCode().equals(KeyCode.ENTER)) {
+			this.renderizar();
+		}
+    }
+	
+	private void renderizar() throws IOException, NegocioException {
 		String fileObjeto = cb_objeto.getSelectionModel().getSelectedItem();
 		String fileCamera = cb_camera.getSelectionModel().getSelectedItem();
 		if(fileObjeto != null) {
@@ -92,7 +105,7 @@ public class ControladorTela implements Initializable {
 			this.objeto = new Objeto(fileObjeto);
 			Drawner.renderizar(canvas, camera, objeto, iluminacao);
 		}
-    }
+	}
 	
 	private void carregarComboBoxObjeto() {
 		objetoFiles = new ArrayList<String>();
