@@ -159,7 +159,7 @@ public class Biblioteca {
 				normalVertice = normalVertice.somar(triangulo.normal);
 			}
 		}
-		return normalVertice;
+		return normalVertice.normalizar();
 	}
 	
 	/**

@@ -227,13 +227,18 @@ public class Drawner{
     	int x = (int) ponto.getX();
     	int y = (int) ponto.getY();
 
-    	if(x >= 0 && x < width-1 && y >= 0 && y < height-1) {
+    	if(x >= 0 && x < (width-1) && y >= 0 && y < (height-1)) {
     		Ponto p1 = triangulo.pVista1;
     		Ponto p2 = triangulo.pVista2;
     		Ponto p3 = triangulo.pVista3;
+    		Ponto pt1 = triangulo.pTela1;
+    		Ponto pt2 = triangulo.pTela2;
+    		Ponto pt3 = triangulo.pTela3;
     		
-    		Ponto baricentrica = Biblioteca.coordenadaBaricentrica(ponto, p1, p2, p3);
+    	
+    		Ponto baricentrica = Biblioteca.coordenadaBaricentrica(ponto, pt1, pt2, pt3);
     		Ponto pontoEstimado = Biblioteca.getCartesianoDaBaricentrica(baricentrica, p1, p2, p3);
+    		pontoEstimado.setZ( -pontoEstimado.getZ() );
     		if(pontoEstimado.getZ() < depthBuffer[x][y].getDepth()) {
     			Vetor n = calcularVetorN(baricentrica, triangulo);
     			Vetor l = calcularVetorL(ponto);

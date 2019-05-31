@@ -75,6 +75,7 @@ public class ControladorTela implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		cb_objeto.setValue("cow");
 	}
 	
 	@FXML
