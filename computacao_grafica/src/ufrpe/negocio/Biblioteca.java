@@ -151,7 +151,6 @@ public class Biblioteca {
 	
 	public static Vetor getNormalDoVertice(Ponto vertice, List<Triangulo> triangulos) {
 		Vetor normalVertice = new Vetor(0,0,0);
-		Vetor normalTriangulo;
 		for (Triangulo triangulo : triangulos) {
 			if( triangulo.pVista1.equals(vertice) || 
 				triangulo.pVista2.equals(vertice) || 

@@ -238,7 +238,6 @@ public class Drawner{
     	
     		Ponto baricentrica = Biblioteca.coordenadaBaricentrica(ponto, pt1, pt2, pt3);
     		Ponto pontoEstimado = Biblioteca.getCartesianoDaBaricentrica(baricentrica, p1, p2, p3);
-    		pontoEstimado.setZ( -pontoEstimado.getZ() );
     		if(pontoEstimado.getZ() < depthBuffer[x][y].getDepth()) {
     			Vetor n = calcularVetorN(baricentrica, triangulo);
     			Vetor l = calcularVetorL(ponto);
