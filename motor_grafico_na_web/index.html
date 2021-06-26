@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="library/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <title>Computacao Gráfica</title>
+    <style>
+        #app {
+            font-family: 'Avenir', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" >
+    <div class="container-fluid" >
+        <span style="margin: 5vh">{{errorMessage}}</span>
+        <div class="row justify-content-center" style="margin: 5vh">
+            <div class="col-3">
+                <div class="input-group flex-nowrap mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Objeto</span>
+                    </div>
+                    <select class="custom-select" v-model="objetoSelecionado">
+                        <option  v-for="objeto in objetos">{{objeto}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group flex-nowrap mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Câmera</span>
+                    </div>
+                    <select class="custom-select" v-model="cameraSelecionada">
+                        <option  v-for="camera in cameras">{{camera}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <canvas id="myCanvas" v-bind:width="width" v-bind:height="height" style="border:1px solid #000000; margin-bottom: 5vh"></canvas>
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <button class="btn btn-primary btn-block" v-on:click="requisicaoObjeto()">GET objeto</button>
+                <button class="btn btn-primary btn-block" v-on:click="renderizar" :disabled="canvas == ''">Renderizar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <footer>
+        <script src="library/vuejs/vue.js"></script>
+        <script src="library/axios/axios.min.js"></script>
+        <script>
+            var app = new Vue({
+                el: "#app",
+                data: {
+                    url: 'http://localhost:3000',
+                    objetos: [],
+                    cameras: [],
+                    canvas: '',
+                    width: 300,
+                    height: 300,
+                    errorMessage: '',
+                    objetoSelecionado: 'calice2',
+                    cameraSelecionada: 'versao_original'
+                },
+                methods: {
+                    renderizar() {
+                        var c = document.getElementById("myCanvas");
+                        var ctx = c.getContext("2d");
+                        for (let i = 0; i < this.canvas.length; i++) {
+                            for (let j = 0; j < this.canvas[0].length; j++) {
+                                var cor = this.canvas[i][j].cor
+                                var r = cor.red
+                                var g = cor.green
+                                var b = cor.blue
+                                ctx.fillStyle = "rgba("+r+","+g+","+b+","+1+")";
+                                ctx.fillRect( i, j, 1, 1 );
+                            }
+                        }
+                        ctx.stroke();
+                    },
+                    requisicaoObjeto() {
+                        this.canvas = ''
+                        var objeto = '/'+this.objetoSelecionado
+                        var camera = '/'+this.cameraSelecionada
+                        var params = '?width='+this.width+'&height='+this.height
+                        axios.get(this.url+'/objetos'+objeto+camera+params).then(response => {
+                            this.errorMessage = ''
+                            this.canvas = response.data
+                        }).catch(erro => {
+                            this.errorMessage = "Erro ao requisitar API"
+                        })
+                    }
+                },
+                mounted() {
+                    axios.get(this.url+"/objetos/formas").then(response => {
+                        this.objetos = response.data
+                    }).catch(erro => {
+                        this.errorMessage = 'Erro ao requisitar API'
+                    })
+
+                    axios.get(this.url+"/objetos/cameras").then(response => {
+                        this.cameras = response.data
+                    }).catch(erro => {
+                        this.errorMessage = 'Erro ao requisitar API'
+                    })
+                }
+            });
+        </script>
+    </footer>
+</body>
+</html>
